@@ -1,0 +1,105 @@
+# ============================
+# OS Files
+# ============================
+
+.DS_Store
+Thumbs.db
+
+# ============================
+# Logs
+# ============================
+
+*.log
+
+# ============================
+# Dart / Flutter
+# ============================
+
+.dart_tool/
+.packages
+.pub/
+.pub-cache/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Flutter API documentation
+**/doc/api/
+
+# ============================
+# IDEs
+# ============================
+
+.idea/
+.vscode/
+
+*.iml
+*.ipr
+*.iws
+.wrangler/
+# ============================
+# Android
+# ============================
+
+android/.gradle/
+android/local.properties
+android/app/debug/
+android/app/profile/
+android/app/release/
+
+# ============================
+# iOS
+# ============================
+
+ios/Flutter/ephemeral/
+ios/Pods/
+ios/.symlinks/
+**/ios/Flutter/.last_build_id
+
+# ============================
+# macOS
+# ============================
+
+macos/Flutter/ephemeral/
+macos/Pods/
+
+# ============================
+# Linux
+# ============================
+
+linux/flutter/ephemeral/
+
+# ============================
+# Windows
+# ============================
+
+windows/flutter/ephemeral/
+
+# ============================
+# Firebase CLI
+# ============================
+
+.firebase/
+
+# ============================
+# Miscellaneous
+# ============================
+
+*.swp
+*.tmp
+*.temp
+.history/
+.atom/
+.build/
+.buildlog/
+.svn/
+.swiftpm/
+migrate_working_dir/
+.claude/
+# ============================
+# Keep these tracked
+# ============================
+
+!pubspec.lock
+!android/app/google-services.json
+!ios/Runner/GoogleService-Info.plist
