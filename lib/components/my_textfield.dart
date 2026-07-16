@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 
+/// Auth/text input. Styling comes from the theme's inputDecorationTheme;
+/// this widget adds the horizontal inset and the show/hide password toggle.
 class MyTextfield extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
@@ -29,52 +32,28 @@ class _MyTextfieldState extends State<MyTextfield> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+    final p = context.palette;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextField(
         controller: widget.controller,
         obscureText: _isObscured,
         enabled: widget.enabled,
-        style: TextStyle(
-          color: isDark ? Colors.white : Colors.black87,
-        ),
+        style: TextStyle(color: p.textHi, fontSize: 15),
         decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: isDark ? Colors.grey.shade700 : Colors.grey.shade300,
-            ),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          disabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: isDark ? Colors.grey.shade800 : Colors.grey.shade300,
-            ),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          fillColor: isDark ? const Color(0xFF2C2C2C) : Colors.grey.shade50,
-          filled: true,
           hintText: widget.hintText,
-          hintStyle: TextStyle(
-            color: isDark ? Colors.grey[400] : Colors.grey[600],
-          ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
           suffixIcon: widget.obscureText
               ? IconButton(
                   icon: Icon(
-                    _isObscured ? Icons.visibility_off : Icons.visibility,
-                    color: isDark ? Colors.grey[400] : Colors.grey[600],
+                    _isObscured
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                    color: p.textMid,
                   ),
-                  onPressed: widget.enabled ? () {
-                    setState(() {
-                      _isObscured = !_isObscured;
-                    });
-                  } : null,
+                  onPressed: widget.enabled
+                      ? () => setState(() => _isObscured = !_isObscured)
+                      : null,
                 )
               : null,
         ),

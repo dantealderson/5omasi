@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 import 'package:khomasi/components/my_button.dart';
 import 'package:khomasi/pages/contact_us_page.dart';
 import 'package:khomasi/l10n/app_localizations.dart';
@@ -184,7 +185,7 @@ class _FAQPageState extends State<FAQPage> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(tr(context, 'faq')),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: AppColors.brand,
         centerTitle: true,
       ),
       body: Column(
@@ -202,7 +203,7 @@ class _FAQPageState extends State<FAQPage> {
               },
               decoration: InputDecoration(
                 hintText: tr(context, 'searchQuestion'),
-                prefixIcon: const Icon(Icons.search, color: Colors.deepPurple),
+                prefixIcon: const Icon(Icons.search, color: AppColors.brand),
                 suffixIcon: _searchQuery.isNotEmpty
                     ? IconButton(
                         icon: const Icon(Icons.clear),
@@ -220,7 +221,7 @@ class _FAQPageState extends State<FAQPage> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
+                  borderSide: const BorderSide(color: AppColors.brand, width: 2),
                 ),
                 filled: true,
                 fillColor: Theme.of(context).scaffoldBackgroundColor,
@@ -320,7 +321,7 @@ class _FAQPageState extends State<FAQPage> {
                   },
                   text: tr(context, 'contactSupport'),
                   icon: Icons.headset_mic,
-                  backgroundColor: Colors.deepPurple,
+                  backgroundColor: AppColors.brand,
                   textColor: Colors.white,
                   borderRadius: 12,
                   margin: EdgeInsets.zero,
@@ -348,18 +349,18 @@ class _FAQPageState extends State<FAQPage> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected
-              ? Colors.deepPurple
-              : (isDark ? const Color(0xFF2C2C2C) : Colors.white),
+              ? AppColors.brand
+              : (isDark ? AppColors.dRaised : Colors.white),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected
-                ? Colors.deepPurple
+                ? AppColors.brand
                 : (isDark ? Colors.grey.shade700 : Colors.grey.shade300),
           ),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: Colors.deepPurple.withOpacity(isDark ? 0.5 : 0.3),
+                    color: AppColors.brand.withOpacity(isDark ? 0.5 : 0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -373,7 +374,7 @@ class _FAQPageState extends State<FAQPage> {
               icon,
               color: isSelected
                   ? Colors.white
-                  : (isDark ? Colors.deepPurple[300] : Colors.deepPurple),
+                  : (isDark ? AppColors.brand : AppColors.brand),
               size: 28,
             ),
             const SizedBox(height: 4),
@@ -417,12 +418,12 @@ class _FAQPageState extends State<FAQPage> {
           leading: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.deepPurple.withOpacity(0.1),
+              color: AppColors.brand.withOpacity(0.1),
               shape: BoxShape.circle,
             ),
             child: const Icon(
               Icons.help_outline,
-              color: Colors.deepPurple,
+              color: AppColors.brand,
               size: 20,
             ),
           ),

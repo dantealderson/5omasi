@@ -2,7 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:khomasi/l10n/app_localizations.dart';
+import 'package:khomasi/theme/app_colors.dart';
+import 'package:khomasi/theme/app_text.dart';
 
+/// The signature surface: a match rendered like a premium matchday ticket.
+/// Floodlit photo hero, a gold hairline with a punched ticket-notch, mono
+/// numerals for the price, and an emerald roster-fill bar.
 class MatchCard extends StatefulWidget {
   final int index;
   final String? matchTitle;
@@ -16,10 +21,8 @@ class MatchCard extends StatefulWidget {
   final String? surfaceType;
   final List<String>? friendsAttending;
   final String? imageUrl;
-  final bool isFavorite;
   final bool isBooked;
   final DateTime? matchDateTime;
-  final VoidCallback? onFavorite;
   final VoidCallback? onTap;
 
   const MatchCard({
@@ -36,10 +39,8 @@ class MatchCard extends StatefulWidget {
     this.surfaceType,
     this.friendsAttending,
     this.imageUrl,
-    this.isFavorite = false,
     this.isBooked = false,
     this.matchDateTime,
-    this.onFavorite,
     this.onTap,
   });
 
@@ -55,10 +56,12 @@ class _MatchCardState extends State<MatchCard> {
   bool get isFillingFast => widget.currentPlayers >= (widget.maxPlayers * 0.8);
   bool get isFull => widget.currentPlayers >= widget.maxPlayers;
 
-  Color get statusColor {
-    if (isFull) return Colors.red;
-    if (isFillingFast) return Colors.orange;
-    return Colors.green;
+  /// Match-fill state on the premium scale:
+  /// emerald (open) → gold (filling fast) → dim (full).
+  Color _statusColor(AppPalette p) {
+    if (isFull) return p.textLow;
+    if (isFillingFast) return p.gold;
+    return p.emerald;
   }
 
   String get statusText {
@@ -67,13 +70,10 @@ class _MatchCardState extends State<MatchCard> {
     return '${widget.currentPlayers}/${widget.maxPlayers}';
   }
 
-  bool get _isDark => Theme.of(context).brightness == Brightness.dark;
-
   @override
   void initState() {
     super.initState();
     if (widget.isBooked && widget.matchDateTime != null) {
-      // Defer first update to after initState (tr() needs context which isn't ready in initState)
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) _updateCountdown();
       });
@@ -119,25 +119,18 @@ class _MatchCardState extends State<MatchCard> {
     setState(() => _countdown = result);
   }
 
-  Widget _buildPlaceholderImage() {
+  Widget _buildPlaceholderImage(AppPalette p) {
     return Container(
-      color: Colors.deepPurple.shade100,
+      color: p.surfaceRaised,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.stadium,
-              size: 48,
-              color: Colors.deepPurple.shade300,
-            ),
-            const SizedBox(height: 4),
+            Icon(Icons.stadium_outlined, size: 44, color: p.textLow),
+            const SizedBox(height: 6),
             Text(
               tr(context, 'stadium'),
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.deepPurple.shade400,
-              ),
+              style: TextStyle(fontSize: 12, color: p.textLow),
             ),
           ],
         ),
@@ -147,7 +140,10 @@ class _MatchCardState extends State<MatchCard> {
 
   @override
   Widget build(BuildContext context) {
+    final p = context.palette;
     final screenWidth = MediaQuery.of(context).size.width;
+    final accent = widget.isBooked ? p.gold : p.line;
+    final status = _statusColor(p);
 
     return GestureDetector(
       onTapDown: (_) => setState(() => _isPressed = true),
@@ -160,366 +156,327 @@ class _MatchCardState extends State<MatchCard> {
         }
       },
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 100),
-        transform: Matrix4.identity()..scale(_isPressed ? 0.98 : 1.0),
-        margin: EdgeInsets.symmetric(
-          horizontal: screenWidth * 0.03,
-          vertical: 8,
-        ),
+        duration: const Duration(milliseconds: 120),
+        curve: Curves.easeOut,
+        transform: Matrix4.identity()..scale(_isPressed ? 0.985 : 1.0),
+        transformAlignment: Alignment.center,
+        margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: 8),
         decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(20),
-          border: widget.isBooked
-              ? Border.all(color: Colors.green, width: 2)
-              : null,
+          color: p.surface,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: accent, width: widget.isBooked ? 1.4 : 1),
           boxShadow: [
             BoxShadow(
               color: widget.isBooked
-                  ? Colors.green.withOpacity(0.2)
-                  : Colors.black.withOpacity(_isDark ? 0.3 : 0.08),
-              spreadRadius: _isPressed ? 1 : 2,
-              blurRadius: _isPressed ? 4 : 8,
-              offset: Offset(0, _isPressed ? 1 : 3),
+                  ? p.gold.withOpacity(0.14)
+                  : Colors.black.withOpacity(p.isDark ? 0.35 : 0.06),
+              blurRadius: _isPressed ? 6 : 16,
+              offset: Offset(0, _isPressed ? 2 : 6),
             ),
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(18),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Image section
-              SizedBox(
-                height: 160,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    // Image with placeholder
-                    widget.imageUrl != null && widget.imageUrl!.isNotEmpty
-                        ? Image.network(
-                            widget.imageUrl!,
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: double.infinity,
-                            errorBuilder: (_, __, ___) => _buildPlaceholderImage(),
-                          )
-                        : _buildPlaceholderImage(),
+              _buildImage(p),
+              _ticketNotch(p),
+              _buildContent(p, status),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
-                    // Gradient overlay
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.transparent,
-                            Colors.black.withOpacity(0.6),
-                          ],
-                        ),
+  Widget _buildImage(AppPalette p) {
+    return SizedBox(
+      height: 158,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          widget.imageUrl != null && widget.imageUrl!.isNotEmpty
+              ? Image.network(
+                  widget.imageUrl!,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => _buildPlaceholderImage(p),
+                )
+              : _buildPlaceholderImage(p),
+
+          // Floodlight vignette — darkens the base for legible overlays.
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.transparent, Color(0xCC05100D)],
+                stops: [0.35, 1.0],
+              ),
+            ),
+          ),
+
+          Positioned(
+            top: 12,
+            left: 12,
+            right: 12,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                if (widget.isBooked)
+                  _badge(
+                    icon: Icons.confirmation_number_outlined,
+                    label: tr(context, 'booked'),
+                    bg: p.gold,
+                    fg: AppColors.onBrand,
+                  )
+                else if (widget.surfaceType != null)
+                  _badge(
+                    icon: Icons.grass_outlined,
+                    label: widget.surfaceType!,
+                    bg: Colors.black.withOpacity(0.45),
+                    fg: Colors.white,
+                  )
+                else
+                  const SizedBox.shrink(),
+              ],
+            ),
+          ),
+
+          Positioned(
+            bottom: 12,
+            left: 14,
+            right: 14,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.venue ?? tr(context, 'stadium'),
+                  style: AppText.kufi(size: 19, weight: 700, color: Colors.white),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                if (widget.distance != null) ...[
+                  const SizedBox(height: 3),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.near_me_outlined,
+                          size: 12, color: Colors.white70),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${widget.distance} ${tr(context, 'km')}',
+                        style: const TextStyle(color: Colors.white70, fontSize: 12),
                       ),
-                    ),
+                    ],
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-                    // Top badges row
-                    Positioned(
-                      top: 12,
-                      left: 12,
-                      right: 12,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Booked badge OR Surface type
-                          if (widget.isBooked)
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(Icons.check_circle, color: Colors.white, size: 14),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    tr(context, 'booked'),
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          else if (widget.surfaceType != null)
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.5),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(Icons.grass, color: Colors.white, size: 14),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    widget.surfaceType!,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+  Widget _badge({
+    required IconData icon,
+    required String label,
+    required Color bg,
+    required Color fg,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: fg, size: 13),
+          const SizedBox(width: 5),
+          Text(
+            label,
+            style: TextStyle(color: fg, fontSize: 11, fontWeight: FontWeight.w700),
+          ),
+        ],
+      ),
+    );
+  }
 
-                          // Favorite button
-                          if (widget.onFavorite != null)
-                            GestureDetector(
-                              onTap: () {
-                                HapticFeedback.lightImpact();
-                                widget.onFavorite!();
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(6),
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.9),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  widget.isFavorite ? Icons.favorite : Icons.favorite_border,
-                                  color: widget.isFavorite ? Colors.red : Colors.grey[600],
-                                  size: 18,
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
+  /// Gold hairline with two punched notches at the edges — the ticket cue.
+  Widget _ticketNotch(AppPalette p) {
+    final notch = Container(
+      width: 14,
+      height: 14,
+      decoration: BoxDecoration(color: p.background, shape: BoxShape.circle),
+    );
+    return SizedBox(
+      height: 18,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Container(height: 1, color: p.gold.withOpacity(0.55)),
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Transform.translate(offset: const Offset(-7, 0), child: notch),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Transform.translate(offset: const Offset(7, 0), child: notch),
+          ),
+        ],
+      ),
+    );
+  }
 
-                    // Venue name at bottom of image
-                    Positioned(
-                      bottom: 12,
-                      left: 12,
-                      right: 12,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.venue ?? tr(context, 'stadium'),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          if (widget.distance != null) ...[
-                            const SizedBox(height: 2),
-                            Text(
-                              '${widget.distance} ${tr(context, 'km')}',
-                              style: const TextStyle(
-                                color: Colors.white70,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ],
-                      ),
-                    ),
-                  ],
+  Widget _buildContent(AppPalette p, Color status) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (widget.isBooked && _countdown.isNotEmpty) ...[
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 12),
+              decoration: BoxDecoration(
+                color: p.goldSoft,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: p.gold.withOpacity(0.35)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.timer_outlined, color: p.gold, size: 16),
+                  const SizedBox(width: 8),
+                  Text('${tr(context, 'startsIn')} $_countdown',
+                      style: TextStyle(
+                          color: p.gold,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600)),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+          ],
+
+          Row(
+            children: [
+              if (widget.date != null) ...[
+                Icon(Icons.calendar_today_outlined, size: 13, color: p.textLow),
+                const SizedBox(width: 5),
+                Text(widget.date!,
+                    style: TextStyle(
+                        color: p.textMid, fontSize: 13, fontWeight: FontWeight.w600)),
+                const SizedBox(width: 14),
+              ],
+              Icon(Icons.access_time_rounded, size: 13, color: p.textLow),
+              const SizedBox(width: 5),
+              Expanded(
+                child: Text(
+                  widget.time ?? '',
+                  style: TextStyle(color: p.textMid, fontSize: 13),
                 ),
               ),
-
-              // Card content
-              Padding(
-                padding: const EdgeInsets.all(14),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Countdown timer for booked matches
-                    if (widget.isBooked && _countdown.isNotEmpty) ...[
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                        decoration: BoxDecoration(
-                          color: Colors.green.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.green.withOpacity(0.3)),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.timer, color: Colors.green, size: 18),
-                            const SizedBox(width: 8),
-                            Text(
-                              tr(context, 'startsIn'),
-                              style: TextStyle(
-                                color: Colors.green[700],
-                                fontSize: 13,
-                              ),
-                            ),
-                            Text(
-                              _countdown,
-                              style: TextStyle(
-                                color: Colors.green[700],
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                    ],
-
-                    // Date and Time row
-                    Row(
-                      children: [
-                        // Date
-                        if (widget.date != null) ...[
-                          Icon(
-                            Icons.calendar_today,
-                            size: 14,
-                            color: _isDark ? Colors.grey[400] : Colors.grey[600],
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            widget.date!,
-                            style: TextStyle(
-                              color: _isDark ? Colors.grey[300] : Colors.grey[700],
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                        ],
-                        // Time
-                        Icon(
-                          Icons.access_time,
-                          size: 14,
-                          color: _isDark ? Colors.grey[400] : Colors.grey[600],
-                        ),
-                        const SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            widget.time ?? '9:00 م - 10:00 م',
-                            style: TextStyle(
-                              color: _isDark ? Colors.grey[300] : Colors.grey[700],
-                              fontSize: 13,
-                            ),
-                          ),
-                        ),
-                        // Status badge
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 3,
-                          ),
-                          decoration: BoxDecoration(
-                            color: statusColor.withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            statusText,
-                            style: TextStyle(
-                              color: statusColor,
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 8),
-
-                    // Progress bar
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: LinearProgressIndicator(
-                        value: widget.currentPlayers / widget.maxPlayers,
-                        backgroundColor: _isDark ? Colors.grey[700] : Colors.grey[200],
-                        valueColor: AlwaysStoppedAnimation<Color>(statusColor),
-                        minHeight: 4,
-                      ),
-                    ),
-
-                    const SizedBox(height: 12),
-
-                    // Bottom row - price and button
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // Price
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              tr(context, 'price'),
-                              style: TextStyle(
-                                color: _isDark ? Colors.grey[400] : Colors.grey[600],
-                                fontSize: 11,
-                              ),
-                            ),
-                            Text(
-                              '${widget.price?.toStringAsFixed(0) ?? "5000"} ${tr(context, 'currency')}',
-                              style: const TextStyle(
-                                fontSize: 18,
-                                color: Colors.deepPurple,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        // Book button
-                        Material(
-                          color: widget.isBooked
-                              ? Colors.green
-                              : (isFull ? Colors.grey : Colors.deepPurple),
-                          borderRadius: BorderRadius.circular(20),
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(20),
-                            onTap: () {
-                              HapticFeedback.mediumImpact();
-                              if (widget.onTap != null) {
-                                widget.onTap!();
-                              }
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 10,
-                              ),
-                              child: Text(
-                                widget.isBooked
-                                    ? tr(context, 'bookedCheck')
-                                    : (isFull ? tr(context, 'full') : tr(context, 'book')),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+                decoration: BoxDecoration(
+                  color: status.withOpacity(0.14),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Text(
+                  statusText,
+                  style: TextStyle(
+                      color: status, fontSize: 11, fontWeight: FontWeight.w700),
                 ),
               ),
             ],
+          ),
+
+          const SizedBox(height: 10),
+
+          // Roster-fill bar.
+          ClipRRect(
+            borderRadius: BorderRadius.circular(6),
+            child: LinearProgressIndicator(
+              value: widget.maxPlayers == 0
+                  ? 0
+                  : widget.currentPlayers / widget.maxPlayers,
+              backgroundColor: p.surfaceRaised,
+              valueColor: AlwaysStoppedAnimation<Color>(status),
+              minHeight: 6,
+            ),
+          ),
+
+          const SizedBox(height: 14),
+
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(tr(context, 'price'),
+                      style: TextStyle(color: p.textLow, fontSize: 11)),
+                  const SizedBox(height: 3),
+                  // Headline number → mono "fixtures board" voice.
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(
+                        widget.price?.toStringAsFixed(0) ?? '5000',
+                        style: AppText.mono(
+                            size: 22, color: p.emerald, weight: FontWeight.w700),
+                      ),
+                      const SizedBox(width: 5),
+                      Text(tr(context, 'currency'),
+                          style: TextStyle(
+                              color: p.textMid,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600)),
+                    ],
+                  ),
+                ],
+              ),
+              _bookButton(p),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _bookButton(AppPalette p) {
+    final Color bg =
+        widget.isBooked ? p.gold : (isFull ? p.surfaceRaised : p.emerald);
+    final Color fg = widget.isBooked
+        ? AppColors.onBrand
+        : (isFull ? p.textLow : p.onEmerald);
+    final String label = widget.isBooked
+        ? tr(context, 'bookedCheck')
+        : (isFull ? tr(context, 'full') : tr(context, 'book'));
+
+    return Material(
+      color: bg,
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () {
+          HapticFeedback.mediumImpact();
+          if (widget.onTap != null) widget.onTap!();
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 11),
+          child: Text(
+            label,
+            style: TextStyle(color: fg, fontSize: 13, fontWeight: FontWeight.w700),
           ),
         ),
       ),

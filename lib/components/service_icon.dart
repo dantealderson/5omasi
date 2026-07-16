@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 
 class ServiceIcon extends StatelessWidget {
   final IconData icon;
@@ -14,7 +15,7 @@ class ServiceIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = available ? Colors.deepPurple : Colors.grey;
+    final color = available ? AppColors.brand : Colors.grey;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

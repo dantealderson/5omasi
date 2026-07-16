@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:khomasi/providers/match_provider.dart';
@@ -149,7 +150,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     onChanged: _onSearchChanged,
                     decoration: InputDecoration(
                       hintText: tr(context, 'searchStadiumOrArea'),
-                      prefixIcon: const Icon(Icons.search, color: Colors.deepPurple),
+                      prefixIcon: const Icon(Icons.search, color: AppColors.brand),
                       suffixIcon: _isSearching
                           ? IconButton(
                               icon: const Icon(Icons.close),
@@ -174,9 +175,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ),
                 TabBar(
                   controller: _tabController,
-                  labelColor: Colors.deepPurple,
+                  labelColor: AppColors.brand,
                   unselectedLabelColor: isDark ? Colors.grey[400] : Colors.grey[600],
-                  indicatorColor: Colors.deepPurple,
+                  indicatorColor: AppColors.brand,
                   indicatorWeight: 3,
                   labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                   tabs: [
@@ -199,8 +200,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 FilterChip(
                   label: Text(tr(context, 'showFullMatches')),
                   selected: matchProvider.showFullMatches,
-                  selectedColor: Colors.deepPurple.withOpacity(0.2),
-                  checkmarkColor: Colors.deepPurple,
+                  selectedColor: AppColors.brand.withOpacity(0.2),
+                  checkmarkColor: AppColors.brand,
                   onSelected: (_) => matchProvider.toggleShowFullMatches(),
                 ),
               ],
@@ -210,10 +211,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           // Scrollable content
           Expanded(
             child: matchProvider.isLoading
-                ? const Center(child: CircularProgressIndicator(color: Colors.deepPurple))
+                ? const Center(child: CircularProgressIndicator(color: AppColors.brand))
                 : RefreshIndicator(
                     onRefresh: () => matchProvider.refreshMatches(),
-                    color: Colors.deepPurple,
+                    color: AppColors.brand,
                     child: matches.isEmpty
                         ? _buildEmptyState()
                         : _buildMatchList(matches),
@@ -311,8 +312,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               distance: _matchDistances[sortedMatches[index].id] != null
                   ? double.parse(_matchDistances[sortedMatches[index].id]!.toStringAsFixed(1))
                   : null,
-              isFavorite: false,
-              onFavorite: () {},
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (_) => BookingPage(match: sortedMatches[index])));
               },

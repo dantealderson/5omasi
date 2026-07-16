@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:khomasi/providers/auth_provider.dart';
@@ -91,7 +92,7 @@ class _RefereeProfilePageState extends State<RefereeProfilePage>
           SliverAppBar(
             expandedHeight: 280 + topPadding,
             pinned: true,
-            backgroundColor: isDark ? const Color(0xFF1F1F1F) : Colors.deepPurple,
+            backgroundColor: isDark ? AppColors.dSurface : AppColors.brand,
             leading: IconButton(
               icon: Container(
                 padding: const EdgeInsets.all(8),
@@ -128,8 +129,8 @@ class _RefereeProfilePageState extends State<RefereeProfilePage>
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: isDark
-                      ? [const Color(0xFF2D1F3D), const Color(0xFF1F1F1F)]
-                      : [Colors.deepPurple.shade400, Colors.deepPurple.shade700],
+                      ? [AppColors.dRaised, AppColors.dSurface]
+                      : [AppColors.brand, AppColors.brandPressed],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -165,7 +166,7 @@ class _RefereeProfilePageState extends State<RefereeProfilePage>
                             height: 80,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.deepPurple.shade100,
+                              color: AppColors.brandTint,
                               border: Border.all(color: Colors.white, width: 3),
                               boxShadow: [
                                 BoxShadow(
@@ -186,7 +187,7 @@ class _RefereeProfilePageState extends State<RefereeProfilePage>
                                           style: const TextStyle(
                                             fontSize: 28,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.deepPurple,
+                                            color: AppColors.brand,
                                           ),
                                         ),
                                       ),
@@ -197,7 +198,7 @@ class _RefereeProfilePageState extends State<RefereeProfilePage>
                                         style: const TextStyle(
                                           fontSize: 28,
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.deepPurple,
+                                          color: AppColors.brand,
                                         ),
                                       ),
                                     ),
@@ -325,7 +326,7 @@ class _RefereeProfilePageState extends State<RefereeProfilePage>
                           label: tr(context, 'earnings'),
                           value: _formatCurrency(earnings),
                           subValue: '${_formatCurrency(pricePerMatch)}/${tr(context, 'match')}',
-                          color: Colors.purple,
+                          color: AppColors.brand,
                           isDark: isDark,
                         ),
                       ),
@@ -338,7 +339,7 @@ class _RefereeProfilePageState extends State<RefereeProfilePage>
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+                      color: isDark ? AppColors.dSurface : Colors.white,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
@@ -445,7 +446,7 @@ class _RefereeProfilePageState extends State<RefereeProfilePage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        color: isDark ? AppColors.dSurface : Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -508,10 +509,10 @@ class _RefereeProfilePageState extends State<RefereeProfilePage>
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.deepPurple.withOpacity(0.1),
+            color: AppColors.brand.withOpacity(0.1),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(icon, color: Colors.deepPurple, size: 18),
+          child: Icon(icon, color: AppColors.brand, size: 18),
         ),
         const SizedBox(width: 12),
         Expanded(

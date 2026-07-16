@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
+import 'package:khomasi/theme/app_text.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:khomasi/models/user_model.dart';
@@ -45,7 +47,7 @@ class PlayerProfilePage extends StatelessWidget {
         SliverAppBar(
           expandedHeight: 200,
           pinned: true,
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: AppColors.brand,
           leading: IconButton(
             icon: Container(
               padding: const EdgeInsets.all(8),
@@ -64,7 +66,7 @@ class PlayerProfilePage extends StatelessWidget {
         ),
         const SliverFillRemaining(
           child: Center(
-            child: CircularProgressIndicator(color: Colors.deepPurple),
+            child: CircularProgressIndicator(color: AppColors.brand),
           ),
         ),
       ],
@@ -76,7 +78,7 @@ class PlayerProfilePage extends StatelessWidget {
       slivers: [
         SliverAppBar(
           pinned: true,
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: AppColors.brand,
           leading: IconButton(
             icon: Container(
               padding: const EdgeInsets.all(8),
@@ -141,9 +143,9 @@ class PlayerProfilePage extends StatelessWidget {
       slivers: [
         // App Bar with profile picture
         SliverAppBar(
-          expandedHeight: 280,
+          expandedHeight: 300,
           pinned: true,
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: AppColors.brand,
           leading: IconButton(
             icon: Container(
               padding: const EdgeInsets.all(8),
@@ -166,8 +168,8 @@ class PlayerProfilePage extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.deepPurple.shade400,
-                        Colors.deepPurple.shade800,
+                        AppColors.brand,
+                        AppColors.brandPressed,
                       ],
                     ),
                   ),
@@ -177,7 +179,7 @@ class PlayerProfilePage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 20),
                       // Profile picture
                       Container(
                         decoration: BoxDecoration(
@@ -193,7 +195,7 @@ class PlayerProfilePage extends StatelessWidget {
                         ),
                         child: CircleAvatar(
                           radius: 50,
-                          backgroundColor: Colors.deepPurple.shade100,
+                          backgroundColor: AppColors.brandTint,
                           backgroundImage: user.profileImageUrl != null
                               ? NetworkImage(user.profileImageUrl!)
                               : null,
@@ -203,29 +205,44 @@ class PlayerProfilePage extends StatelessWidget {
                                   style: const TextStyle(
                                     fontSize: 36,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.deepPurple,
+                                    color: AppColors.brand,
                                   ),
                                 )
                               : null,
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 12),
                       // Name
                       Text(
                         user.name,
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                        style: AppText.kufi(
+                            size: 26, weight: 700, color: Colors.white),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 4),
-                      // Member since
+                      const SizedBox(height: 8),
+                      // At-a-glance standing — read the player instantly.
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (totalRatings > 0) ...[
+                            _headerChip(Icons.star_rounded,
+                                averageRating.toStringAsFixed(1), AppColors.gold),
+                            const SizedBox(width: 8),
+                          ],
+                          _headerChip(Icons.sports_soccer, '$totalMatches',
+                              Colors.white),
+                          const SizedBox(width: 8),
+                          _headerChip(Icons.emoji_events,
+                              '${winRate.toStringAsFixed(0)}%', Colors.white),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
                       Text(
                         memberSinceText,
                         style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white.withOpacity(0.8),
+                          fontSize: 12,
+                          color: Colors.white.withOpacity(0.75),
                         ),
                       ),
                     ],
@@ -248,7 +265,7 @@ class PlayerProfilePage extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+                      color: isDark ? AppColors.dSurface : Colors.white,
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
@@ -265,9 +282,9 @@ class PlayerProfilePage extends StatelessWidget {
                           children: List.generate(5, (index) {
                             final starValue = index + 1;
                             if (averageRating >= starValue) {
-                              return const Icon(Icons.star_rounded, color: Colors.amber, size: 28);
+                              return const Icon(Icons.star_rounded, color: AppColors.gold, size: 28);
                             } else if (averageRating >= starValue - 0.5) {
-                              return const Icon(Icons.star_half_rounded, color: Colors.amber, size: 28);
+                              return const Icon(Icons.star_half_rounded, color: AppColors.gold, size: 28);
                             } else {
                               return Icon(Icons.star_outline_rounded,
                                   color: isDark ? Colors.grey[600] : Colors.grey[400], size: 28);
@@ -280,11 +297,10 @@ class PlayerProfilePage extends StatelessWidget {
                           children: [
                             Text(
                               averageRating.toStringAsFixed(1),
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: isDark ? Colors.white : Colors.black87,
-                              ),
+                              style: AppText.mono(
+                                  size: 22,
+                                  weight: FontWeight.w700,
+                                  color: isDark ? Colors.white : Colors.black87),
                             ),
                             Text(
                               '($totalRatings ${tr(context, 'ratingsCount')})',
@@ -315,7 +331,7 @@ class PlayerProfilePage extends StatelessWidget {
                           width: double.infinity,
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+                            color: isDark ? AppColors.dSurface : Colors.white,
                             borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
@@ -391,7 +407,7 @@ class PlayerProfilePage extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+                    color: isDark ? AppColors.dSurface : Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
@@ -441,14 +457,14 @@ class PlayerProfilePage extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Colors.deepPurple, Colors.deepPurple.shade700],
+                      colors: [AppColors.brand, AppColors.brandPressed],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.deepPurple.withOpacity(0.3),
+                        color: AppColors.brand.withOpacity(0.3),
                         blurRadius: 20,
                         offset: const Offset(0, 10),
                       ),
@@ -467,11 +483,10 @@ class PlayerProfilePage extends StatelessWidget {
                           const SizedBox(height: 8),
                           Text(
                             '${winRate.toStringAsFixed(1)}%',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: AppText.mono(
+                                size: 30,
+                                color: Colors.white,
+                                weight: FontWeight.w700),
                           ),
                         ],
                       ),
@@ -493,7 +508,7 @@ class PlayerProfilePage extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+                    color: isDark ? AppColors.dSurface : Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
@@ -557,7 +572,7 @@ class PlayerProfilePage extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                         decoration: BoxDecoration(
-                          color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+                          color: isDark ? AppColors.dSurface : Colors.white,
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
@@ -597,7 +612,7 @@ class PlayerProfilePage extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                         decoration: BoxDecoration(
-                          color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+                          color: isDark ? AppColors.dSurface : Colors.white,
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
@@ -613,15 +628,16 @@ class PlayerProfilePage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Icon(Icons.star, color: Colors.amber, size: 24),
+                                const Icon(Icons.star, color: AppColors.gold, size: 24),
                                 const SizedBox(width: 4),
                                 Text(
                                   '$mvpAwards',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: isDark ? Colors.white : Colors.black87,
-                                  ),
+                                  style: AppText.mono(
+                                      size: 18,
+                                      weight: FontWeight.w700,
+                                      color: isDark
+                                          ? Colors.white
+                                          : Colors.black87),
                                 ),
                               ],
                             ),
@@ -644,7 +660,7 @@ class PlayerProfilePage extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                         decoration: BoxDecoration(
-                          color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+                          color: isDark ? AppColors.dSurface : Colors.white,
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
@@ -664,11 +680,12 @@ class PlayerProfilePage extends StatelessWidget {
                                 const SizedBox(width: 4),
                                 Text(
                                   '$hatTricks',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: isDark ? Colors.white : Colors.black87,
-                                  ),
+                                  style: AppText.mono(
+                                      size: 18,
+                                      weight: FontWeight.w700,
+                                      color: isDark
+                                          ? Colors.white
+                                          : Colors.black87),
                                 ),
                               ],
                             ),
@@ -697,6 +714,28 @@ class PlayerProfilePage extends StatelessWidget {
     );
   }
 
+  Widget _headerChip(IconData icon, String value, Color accent) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.16),
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: accent),
+          const SizedBox(width: 5),
+          Text(
+            value,
+            style: AppText.mono(
+                size: 13, color: Colors.white, weight: FontWeight.w700),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildStatItem({
     required BuildContext context,
     required IconData icon,
@@ -718,11 +757,10 @@ class PlayerProfilePage extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           value,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: isDark ? Colors.white : Colors.black87,
-          ),
+          style: AppText.mono(
+              size: 20,
+              weight: FontWeight.w700,
+              color: isDark ? Colors.white : Colors.black87),
         ),
         Text(
           label,
@@ -751,11 +789,7 @@ class PlayerProfilePage extends StatelessWidget {
           ),
           child: Text(
             '$value',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
+            style: AppText.mono(size: 24, color: color, weight: FontWeight.w700),
           ),
         ),
         const SizedBox(height: 8),

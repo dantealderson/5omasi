@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 
 class InfoRow extends StatelessWidget {
   final IconData icon;
@@ -25,7 +26,7 @@ class InfoRow extends StatelessWidget {
           ), 
           child: Row(
             children: [
-              Icon(icon, size: 24, color: Colors.deepPurple),
+              Icon(icon, size: 24, color: AppColors.brand),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(

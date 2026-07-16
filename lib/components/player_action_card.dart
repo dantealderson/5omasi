@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 import 'package:flutter/services.dart';
 
 class PlayerActionCard extends StatelessWidget {
@@ -84,7 +85,7 @@ class PlayerActionCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: hasRedCard 
                         ? Colors.red 
-                        : Colors.deepPurple,
+                        : AppColors.brand,
                     shape: BoxShape.circle,
                   ),
                   child: Center(

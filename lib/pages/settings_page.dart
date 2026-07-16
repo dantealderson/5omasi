@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -34,9 +35,6 @@ class _SettingsPageState extends State<SettingsPage> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(tr(context, 'settings')),
-        centerTitle: true,
-        backgroundColor: Colors.deepPurple,
-        foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -346,7 +344,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1F1F1F) : Colors.white,
+        color: isDark ? AppColors.dSurface : Colors.white,
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
@@ -380,7 +378,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return ListTile(
       leading: Icon(
         icon,
-        color: textColor ?? Colors.deepPurple,
+        color: textColor ?? AppColors.brand,
       ),
       title: Text(
         title,
@@ -422,7 +420,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return ListTile(
       leading: Icon(
         icon,
-        color: Colors.deepPurple,
+        color: AppColors.brand,
       ),
       title: Text(
         title,
@@ -444,7 +442,7 @@ class _SettingsPageState extends State<SettingsPage> {
           HapticFeedback.lightImpact();
           onChanged(newValue);
         },
-        activeColor: Colors.deepPurple,
+        activeColor: AppColors.brand,
       ),
     );
   }
@@ -460,7 +458,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return ListTile(
       leading: Icon(
         icon,
-        color: Colors.deepPurple,
+        color: AppColors.brand,
       ),
       title: Text(
         title,
@@ -472,7 +470,7 @@ class _SettingsPageState extends State<SettingsPage> {
       trailing: DropdownButton<String>(
         value: value,
         underline: const SizedBox(),
-        dropdownColor: isDark ? const Color(0xFF2A2A2A) : Colors.white,
+        dropdownColor: isDark ? AppColors.dRaised : Colors.white,
         style: TextStyle(
           color: isDark ? Colors.white : Colors.black87,
         ),
@@ -502,7 +500,7 @@ class _SettingsPageState extends State<SettingsPage> {
       context: context,
       builder: (dialogContext) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          backgroundColor: isDark ? const Color(0xFF1F1F1F) : Colors.white,
+          backgroundColor: isDark ? AppColors.dSurface : Colors.white,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Text(
             tr(context, 'changePassword'),
@@ -569,7 +567,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       }
                     },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
+                backgroundColor: AppColors.brand,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
               child: isLoading
@@ -596,7 +594,7 @@ class _SettingsPageState extends State<SettingsPage> {
       context: context,
       builder: (dialogContext) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          backgroundColor: isDark ? const Color(0xFF1F1F1F) : Colors.white,
+          backgroundColor: isDark ? AppColors.dSurface : Colors.white,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Text(
             tr(context, 'changeEmail'),
@@ -652,7 +650,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       }
                     },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
+                backgroundColor: AppColors.brand,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
               child: isLoading
@@ -678,7 +676,7 @@ class _SettingsPageState extends State<SettingsPage> {
       context: context,
       builder: (dialogContext) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          backgroundColor: isDark ? const Color(0xFF1F1F1F) : Colors.white,
+          backgroundColor: isDark ? AppColors.dSurface : Colors.white,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Text(
             tr(context, 'changePhone'),
@@ -721,7 +719,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       }
                     },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
+                backgroundColor: AppColors.brand,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
               child: isLoading
@@ -747,7 +745,7 @@ class _SettingsPageState extends State<SettingsPage> {
       barrierDismissible: false,
       builder: (dialogContext) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          backgroundColor: isDark ? const Color(0xFF1F1F1F) : Colors.white,
+          backgroundColor: isDark ? AppColors.dSurface : Colors.white,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Text(
             tr(context, 'logout'),
@@ -825,7 +823,7 @@ class _SettingsPageState extends State<SettingsPage> {
       context: context,
       builder: (dialogContext) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          backgroundColor: isDark ? const Color(0xFF1F1F1F) : Colors.white,
+          backgroundColor: isDark ? AppColors.dSurface : Colors.white,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Row(
             children: [
@@ -920,7 +918,7 @@ class _SettingsPageState extends State<SettingsPage> {
       builder: (context) => Container(
         height: MediaQuery.of(context).size.height * 0.7,
         decoration: BoxDecoration(
-          color: isDark ? const Color(0xFF1F1F1F) : Colors.white,
+          color: isDark ? AppColors.dSurface : Colors.white,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         ),
         child: Column(
@@ -950,7 +948,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 itemCount: days.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    leading: Icon(Icons.calendar_today, color: Colors.deepPurple),
+                    leading: Icon(Icons.calendar_today, color: AppColors.brand),
                     title: Text(
                       days[index],
                       style: TextStyle(color: isDark ? Colors.white : Colors.black87),
@@ -962,7 +960,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     trailing: CupertinoSwitch(
                       value: true,
                       onChanged: (value) {},
-                      activeColor: Colors.deepPurple,
+                      activeColor: AppColors.brand,
                     ),
                   );
                 },
@@ -988,7 +986,7 @@ class _SettingsPageState extends State<SettingsPage> {
       builder: (context) => Container(
         height: MediaQuery.of(context).size.height * 0.5,
         decoration: BoxDecoration(
-          color: isDark ? const Color(0xFF1F1F1F) : Colors.white,
+          color: isDark ? AppColors.dSurface : Colors.white,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         ),
         child: Column(
@@ -1040,7 +1038,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       icon: const Icon(Icons.add, color: Colors.white),
                       label: Text(tr(context, 'addCard'), style: const TextStyle(color: Colors.white)),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepPurple,
+                        backgroundColor: AppColors.brand,
                         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -1067,7 +1065,7 @@ class _SettingsPageState extends State<SettingsPage> {
       builder: (context) => Container(
         height: MediaQuery.of(context).size.height * 0.6,
         decoration: BoxDecoration(
-          color: isDark ? const Color(0xFF1F1F1F) : Colors.white,
+          color: isDark ? AppColors.dSurface : Colors.white,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         ),
         child: Column(
@@ -1130,7 +1128,7 @@ class _SettingsPageState extends State<SettingsPage> {
       builder: (context) => Container(
         height: MediaQuery.of(context).size.height * 0.5,
         decoration: BoxDecoration(
-          color: isDark ? const Color(0xFF1F1F1F) : Colors.white,
+          color: isDark ? AppColors.dSurface : Colors.white,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         ),
         child: Column(
@@ -1160,14 +1158,14 @@ class _SettingsPageState extends State<SettingsPage> {
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [Colors.deepPurple, Colors.purple],
+                  colors: [AppColors.brand, AppColors.brandPressed],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.deepPurple.withOpacity(0.3),
+                    color: AppColors.brand.withOpacity(0.3),
                     blurRadius: 15,
                     offset: const Offset(0, 8),
                   ),
@@ -1207,7 +1205,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   icon: const Icon(Icons.add, color: Colors.white),
                   label: Text(tr(context, 'topUpBalance'), style: const TextStyle(color: Colors.white, fontSize: 16)),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: AppColors.brand,
+                    foregroundColor: AppColors.onBrand,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -1259,10 +1258,10 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.deepPurple),
+          borderSide: const BorderSide(color: AppColors.brand),
         ),
         filled: true,
-        fillColor: isDark ? const Color(0xFF2A2A2A) : Colors.grey[50],
+        fillColor: isDark ? AppColors.dRaised : Colors.grey[50],
       ),
     );
   }

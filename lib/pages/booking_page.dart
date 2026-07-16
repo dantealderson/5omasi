@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
+import 'package:khomasi/theme/app_text.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -72,9 +74,9 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        backgroundColor: isDark ? AppColors.dSurface : Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        icon: Icon(Icons.lock_outline, size: 48, color: Colors.deepPurple.withOpacity(0.7)),
+        icon: Icon(Icons.lock_outline, size: 48, color: AppColors.brand.withOpacity(0.7)),
         title: Text(
           tr(context, 'guestLoginRequired'),
           style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontWeight: FontWeight.bold),
@@ -95,8 +97,8 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
                     Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginPage()));
                   },
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.deepPurple,
-                    side: const BorderSide(color: Colors.deepPurple),
+                    foregroundColor: AppColors.brand,
+                    side: const BorderSide(color: AppColors.brand),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     padding: const EdgeInsets.symmetric(vertical: 12),
                   ),
@@ -111,7 +113,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
                     Navigator.push(context, MaterialPageRoute(builder: (_) => const SignUpPage()));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple,
+                    backgroundColor: AppColors.brand,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     padding: const EdgeInsets.symmetric(vertical: 12),
@@ -414,7 +416,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        backgroundColor: isDark ? AppColors.dSurface : Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         icon: Container(
           padding: const EdgeInsets.all(12),
@@ -441,17 +443,17 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.deepPurple.withOpacity(0.1),
+                color: AppColors.brand.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.info_outline, color: Colors.deepPurple, size: 20),
+                  const Icon(Icons.info_outline, color: AppColors.brand, size: 20),
                   const SizedBox(width: 8),
                   Text(
                     tr(context, 'notEnoughTokens'),
-                    style: TextStyle(color: Colors.deepPurple.shade700, fontWeight: FontWeight.w500),
+                    style: TextStyle(color: AppColors.brandPressed, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
@@ -480,7 +482,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
+                  backgroundColor: AppColors.brand,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
                 child: Text(tr(context, 'tokensUnit'), style: const TextStyle(color: Colors.white)),
@@ -510,7 +512,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        backgroundColor: isDark ? AppColors.dSurface : Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(tr(context, 'cancelBooking'), style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
         content: Text(tr(context, 'cancelBooking'), style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600]), textAlign: TextAlign.center),
@@ -548,7 +550,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        backgroundColor: isDark ? AppColors.dSurface : Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         icon: Container(
           padding: const EdgeInsets.all(12),
@@ -574,7 +576,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
             child: ElevatedButton(
               onPressed: () => Navigator.pop(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
+                backgroundColor: AppColors.brand,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 padding: const EdgeInsets.symmetric(vertical: 12),
@@ -598,7 +600,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
       context: context,
       barrierDismissible: false,
       builder: (dialogContext) => AlertDialog(
-        backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        backgroundColor: isDark ? AppColors.dSurface : Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -630,7 +632,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () { Navigator.pop(dialogContext); Navigator.pop(context); },
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 12), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+              style: ElevatedButton.styleFrom(backgroundColor: AppColors.brand, foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 12), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
               child: Text(tr(context, 'confirm'), style: const TextStyle(fontWeight: FontWeight.bold)),
             ),
           ),
@@ -649,7 +651,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
 
   Widget _buildPlaceholderImage() {
     return Container(
-      color: Colors.deepPurple.shade300,
+      color: AppColors.brand,
       child: Center(child: Icon(Icons.stadium, size: 80, color: Colors.white.withOpacity(0.3))),
     );
   }
@@ -666,7 +668,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
           SliverAppBar(
             expandedHeight: 280,
             pinned: true,
-            backgroundColor: isDark ? const Color(0xFF1F1F1F) : Colors.deepPurple,
+            backgroundColor: isDark ? AppColors.dSurface : AppColors.brand,
             leading: IconButton(
               icon: Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: Colors.black.withOpacity(0.3), shape: BoxShape.circle), child: const Icon(Icons.arrow_back, color: Colors.white)),
               onPressed: () => Navigator.pop(context),
@@ -751,7 +753,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
                         children: [
                           Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4), decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(12)), child: Text('${match.maxPlayers ~/ 2}v${match.maxPlayers ~/ 2}', style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold))),
                           const SizedBox(height: 8),
-                          Text(match.stadiumName, style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
+                          Text(match.stadiumName, style: AppText.kufi(size: 24, weight: 700, color: Colors.white)),
                           const SizedBox(height: 4),
                           // Address
                           if (match.stadiumAddress != null) 
@@ -851,7 +853,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
                   ]),
                   const SizedBox(height: 12),
                   Row(children: [
-                    Expanded(child: _buildInfoCard(Icons.timer, tr(context, 'duration'), '${match.durationMinutes} ${tr(context, 'minutesSuffix')}', Colors.purple, isDark)),
+                    Expanded(child: _buildInfoCard(Icons.timer, tr(context, 'duration'), '${match.durationMinutes} ${tr(context, 'minutesSuffix')}', AppColors.gold, isDark)),
                     const SizedBox(width: 12),
                     Expanded(child: _buildInfoCard(Icons.grass, tr(context, 'surfaceType'), _surfaceTypeText, Colors.green, isDark)),
                   ]),
@@ -879,17 +881,25 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
                   // Price section
                   Container(
                     padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(color: isDark ? const Color(0xFF1E1E1E) : Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [BoxShadow(color: Colors.black.withOpacity(isDark ? 0.3 : 0.05), blurRadius: 10, offset: const Offset(0, 2))]),
+                    decoration: BoxDecoration(color: isDark ? AppColors.dSurface : Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [BoxShadow(color: Colors.black.withOpacity(isDark ? 0.3 : 0.05), blurRadius: 10, offset: const Offset(0, 2))]),
                     child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                         Text(tr(context, 'pricePerPlayer'), style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600], fontSize: 14)),
                         const SizedBox(height: 4),
-                        Text('${match.pricePerPlayer.toInt()} ${tr(context, 'currency')}', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+                        Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
+                          Text('${match.pricePerPlayer.toInt()}', style: AppText.mono(size: 24, color: AppColors.brand, weight: FontWeight.w700)),
+                          const SizedBox(width: 5),
+                          Text(tr(context, 'currency'), style: TextStyle(color: context.palette.textMid, fontSize: 13, fontWeight: FontWeight.w600)),
+                        ]),
                       ]),
                       if (!_isFull) Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
                         Text(tr(context, 'costTokens'), style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600], fontSize: 14)),
                         const SizedBox(height: 4),
-                        Text('${(match.pricePerPlayer * _selectedPlayers).toInt()} ${tr(context, 'currency')}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.black87)),
+                        Row(crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
+                          Text('${(match.pricePerPlayer * _selectedPlayers).toInt()}', style: AppText.mono(size: 20, color: context.palette.textHi, weight: FontWeight.w700)),
+                          const SizedBox(width: 5),
+                          Text(tr(context, 'currency'), style: TextStyle(color: context.palette.textMid, fontSize: 12, fontWeight: FontWeight.w600)),
+                        ]),
                       ]),
                     ]),
                   ),
@@ -910,7 +920,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
           
           return Container(
             padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: MediaQuery.of(context).padding.bottom + 16),
-            decoration: BoxDecoration(color: isDark ? const Color(0xFF1F1F1F) : Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(isDark ? 0.3 : 0.1), blurRadius: 20, offset: const Offset(0, -5))]),
+            decoration: BoxDecoration(color: isDark ? AppColors.dSurface : Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(isDark ? 0.3 : 0.1), blurRadius: 20, offset: const Offset(0, -5))]),
             child: SafeArea(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -940,8 +950,8 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
                             icon: const Icon(Icons.balance, size: 20),
                             label: Text(tr(context, 'balanceTeams')),
                             style: OutlinedButton.styleFrom(
-                              foregroundColor: Colors.deepPurple,
-                              side: const BorderSide(color: Colors.deepPurple),
+                              foregroundColor: AppColors.brand,
+                              side: const BorderSide(color: AppColors.brand),
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                             ),
@@ -984,7 +994,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
                       Expanded(
                         child: ElevatedButton(
                           onPressed: !_isFull && !_isBooking ? _handleBooking : null,
-                          style: ElevatedButton.styleFrom(backgroundColor: _isFull ? Colors.grey : (isBooked ? Colors.green : Colors.deepPurple), foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)), elevation: 0),
+                          style: ElevatedButton.styleFrom(backgroundColor: _isFull ? context.palette.surfaceRaised : (isBooked ? AppColors.gold : AppColors.brand), foregroundColor: _isFull ? context.palette.textLow : AppColors.onBrand, padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)), elevation: 0),
                           child: _isBooking
                               ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(Colors.white)))
                               : Text(_isFull ? tr(context, 'matchFull') : isBooked ? '${tr(context, 'bookMatch')} $_selectedPlayers' : '${tr(context, 'bookMatch')} $_selectedPlayers', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -1009,7 +1019,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
       onTap: isFull ? null : () { HapticFeedback.selectionClick(); setState(() => _selectedTeam = team); },
       child: Container(
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(color: isSelected ? color.withOpacity(0.1) : (isDark ? const Color(0xFF1E1E1E) : Colors.white), borderRadius: BorderRadius.circular(16), border: Border.all(color: isSelected ? color : (isDark ? Colors.grey[700]! : Colors.grey[300]!), width: isSelected ? 2 : 1)),
+        decoration: BoxDecoration(color: isSelected ? color.withOpacity(0.1) : (isDark ? AppColors.dSurface : Colors.white), borderRadius: BorderRadius.circular(16), border: Border.all(color: isSelected ? color : (isDark ? Colors.grey[700]! : Colors.grey[300]!), width: isSelected ? 2 : 1)),
         child: Column(children: [
           Icon(Icons.shield, color: isFull ? Colors.grey : color, size: 32),
           const SizedBox(height: 8),
@@ -1025,7 +1035,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
   Widget _buildInfoCard(IconData icon, String label, String value, Color color, bool isDark) {
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: isDark ? const Color(0xFF1E1E1E) : Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [BoxShadow(color: Colors.black.withOpacity(isDark ? 0.3 : 0.05), blurRadius: 10, offset: const Offset(0, 2))]),
+      decoration: BoxDecoration(color: isDark ? AppColors.dSurface : Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [BoxShadow(color: Colors.black.withOpacity(isDark ? 0.3 : 0.05), blurRadius: 10, offset: const Offset(0, 2))]),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(8)), child: Icon(icon, color: color, size: 20)),
         const SizedBox(height: 12),
@@ -1082,7 +1092,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        color: isDark ? AppColors.dSurface : Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: color.withOpacity(0.3), width: 1),
         boxShadow: [
@@ -1216,7 +1226,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
                 else
                   CircleAvatar(
                     radius: 14,
-                    backgroundColor: Colors.deepPurple.shade100,
+                    backgroundColor: AppColors.brandTint,
                     backgroundImage: profileImageUrl != null 
                         ? NetworkImage(profileImageUrl) 
                         : null,
@@ -1228,7 +1238,7 @@ class _BookingPageState extends State<BookingPage> with SingleTickerProviderStat
                             style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
-                              color: Colors.deepPurple,
+                              color: AppColors.brand,
                             ),
                           )
                         : null,

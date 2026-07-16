@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "987654545846",
+    "project_id": "khomasi-177f3",
+    "storage_bucket": "khomasi-177f3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:987654545846:android:8cad4f8a6d386f4bd76117",
+        "android_client_info": {
+          "package_name": "com.example.khomasi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "987654545846-8r29q2508lk8e093bf9unn3ubs7t4i5e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.khomasi",
+            "certificate_hash": "b4d39c89b828eab983db0ecd1fb2e484788e3203"
+          }
+        },
+        {
+          "client_id": "987654545846-b0m5j64j0jglml5pm0l9b8pe3uo4uulc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPBj3TisfN7TDzMLAayEBRLEW4EcaqSz0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "987654545846-b0m5j64j0jglml5pm0l9b8pe3uo4uulc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "987654545846-40kcbiektr6ao4il16qafd1crf8pb5pc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.khomasi"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

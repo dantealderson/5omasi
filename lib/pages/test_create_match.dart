@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:khomasi/services/image_upload_service.dart';
@@ -72,7 +73,7 @@ class _TestCreateMatchPageState extends State<TestCreateMatchPage> with SingleTi
             child: TabBar(
               controller: _tabController,
               indicator: BoxDecoration(
-                color: Colors.deepPurple,
+                color: AppColors.brand,
                 borderRadius: BorderRadius.circular(12),
               ),
               labelColor: Colors.white,
@@ -397,7 +398,7 @@ class _CreateMatchTabState extends State<_CreateMatchTab> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.deepPurple.withOpacity(0.1),
+                  color: AppColors.brand.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
@@ -423,7 +424,7 @@ class _CreateMatchTabState extends State<_CreateMatchTab> {
                     ],
                     Row(
                       children: [
-                        const Icon(Icons.location_on, size: 16, color: Colors.deepPurple),
+                        const Icon(Icons.location_on, size: 16, color: AppColors.brand),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
@@ -470,7 +471,7 @@ class _CreateMatchTabState extends State<_CreateMatchTab> {
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.calendar_today, color: Colors.deepPurple),
+                          const Icon(Icons.calendar_today, color: AppColors.brand),
                           const SizedBox(width: 12),
                           Text(
                             '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}',
@@ -493,7 +494,7 @@ class _CreateMatchTabState extends State<_CreateMatchTab> {
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.access_time, color: Colors.deepPurple),
+                          const Icon(Icons.access_time, color: AppColors.brand),
                           const SizedBox(width: 12),
                           Text(
                             '${_selectedTime.hour}:${_selectedTime.minute.toString().padLeft(2, '0')}',
@@ -562,7 +563,7 @@ class _CreateMatchTabState extends State<_CreateMatchTab> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                border: Border.all(color: _isRecurring ? Colors.deepPurple : Colors.grey),
+                border: Border.all(color: _isRecurring ? AppColors.brand : Colors.grey),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -571,7 +572,7 @@ class _CreateMatchTabState extends State<_CreateMatchTab> {
                     title: const Text('مباراة متكررة أسبوعياً'),
                     subtitle: const Text('إنشاء نفس المباراة كل أسبوع'),
                     value: _isRecurring,
-                    activeColor: Colors.deepPurple,
+                    activeColor: AppColors.brand,
                     contentPadding: EdgeInsets.zero,
                     onChanged: (v) => setState(() => _isRecurring = v),
                   ),
@@ -579,7 +580,7 @@ class _CreateMatchTabState extends State<_CreateMatchTab> {
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        const Icon(Icons.repeat, color: Colors.deepPurple, size: 20),
+                        const Icon(Icons.repeat, color: AppColors.brand, size: 20),
                         const SizedBox(width: 8),
                         const Text('عدد الأسابيع:'),
                         const SizedBox(width: 12),
@@ -588,7 +589,7 @@ class _CreateMatchTabState extends State<_CreateMatchTab> {
                           child: ChoiceChip(
                             label: Text('$w'),
                             selected: _recurringWeeks == w,
-                            selectedColor: Colors.deepPurple.withOpacity(0.2),
+                            selectedColor: AppColors.brand.withOpacity(0.2),
                             onSelected: (_) => setState(() => _recurringWeeks = w),
                           ),
                         ))),
@@ -608,7 +609,7 @@ class _CreateMatchTabState extends State<_CreateMatchTab> {
               child: ElevatedButton(
                 onPressed: _isLoading ? null : _createMatch,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
+                  backgroundColor: AppColors.brand,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -645,7 +646,7 @@ class _CreateMatchTabState extends State<_CreateMatchTab> {
   Widget _buildSectionHeader(String title, IconData icon) {
     return Row(
       children: [
-        Icon(icon, color: Colors.deepPurple, size: 20),
+        Icon(icon, color: AppColors.brand, size: 20),
         const SizedBox(width: 8),
         Text(
           title,
@@ -662,15 +663,15 @@ class _CreateMatchTabState extends State<_CreateMatchTab> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.deepPurple.withOpacity(0.2),
+        color: AppColors.brand.withOpacity(0.2),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14, color: Colors.deepPurple),
+          Icon(icon, size: 14, color: AppColors.brand),
           const SizedBox(width: 4),
-          Text(label, style: const TextStyle(fontSize: 12, color: Colors.deepPurple)),
+          Text(label, style: const TextStyle(fontSize: 12, color: AppColors.brand)),
         ],
       ),
     );
@@ -767,10 +768,10 @@ class _UpcomingMatchesList extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 8),
               child: ListTile(
                 leading: CircleAvatar(
-                  backgroundColor: Colors.deepPurple.withOpacity(0.1),
+                  backgroundColor: AppColors.brand.withOpacity(0.1),
                   child: Text(
                     '${data['maxPlayers'] ~/ 2}v${data['maxPlayers'] ~/ 2}',
-                    style: const TextStyle(fontSize: 12, color: Colors.deepPurple),
+                    style: const TextStyle(fontSize: 12, color: AppColors.brand),
                   ),
                 ),
                 title: Text(data['stadiumName'] ?? 'ملعب'),
@@ -842,7 +843,7 @@ class _ManageStadiumsTab extends StatelessWidget {
               icon: const Icon(Icons.add),
               label: const Text('إضافة ملعب جديد'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
+                backgroundColor: AppColors.brand,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
@@ -910,9 +911,9 @@ class _ManageStadiumsTab extends StatelessWidget {
                         else
                           Container(
                             height: 80,
-                            color: Colors.deepPurple.withOpacity(0.1),
+                            color: AppColors.brand.withOpacity(0.1),
                             child: const Center(
-                              child: Icon(Icons.stadium, size: 40, color: Colors.deepPurple),
+                              child: Icon(Icons.stadium, size: 40, color: AppColors.brand),
                             ),
                           ),
                         
@@ -979,12 +980,12 @@ class _ManageStadiumsTab extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-        color: Colors.deepPurple.withOpacity(0.1),
+        color: AppColors.brand.withOpacity(0.1),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
         label,
-        style: const TextStyle(fontSize: 11, color: Colors.deepPurple),
+        style: const TextStyle(fontSize: 11, color: AppColors.brand),
       ),
     );
   }
@@ -1214,7 +1215,7 @@ class _CreateStadiumSheetState extends State<_CreateStadiumSheet> {
     
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        color: isDark ? AppColors.dSurface : Colors.white,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       padding: EdgeInsets.only(
@@ -1470,7 +1471,7 @@ class _CreateStadiumSheetState extends State<_CreateStadiumSheet> {
                 child: ElevatedButton(
                   onPressed: _isLoading ? null : _createStadium,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple,
+                    backgroundColor: AppColors.brand,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
@@ -1502,7 +1503,7 @@ class _CreateStadiumSheetState extends State<_CreateStadiumSheet> {
       ),
       selected: selected,
       onSelected: onChanged,
-      selectedColor: Colors.deepPurple,
+      selectedColor: AppColors.brand,
       checkmarkColor: Colors.white,
       labelStyle: TextStyle(color: selected ? Colors.white : null),
     );
@@ -1524,9 +1525,9 @@ class _CreateStadiumSheetState extends State<_CreateStadiumSheet> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
-            color: isSelected ? Colors.deepPurple : Colors.transparent,
+            color: isSelected ? AppColors.brand : Colors.transparent,
             border: Border.all(
-              color: isSelected ? Colors.deepPurple : Colors.grey,
+              color: isSelected ? AppColors.brand : Colors.grey,
               width: isSelected ? 2 : 1,
             ),
             borderRadius: BorderRadius.circular(12),

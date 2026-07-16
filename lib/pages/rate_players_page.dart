@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:khomasi/services/player_rating_service.dart';
@@ -134,7 +135,7 @@ class _RatePlayersPageState extends State<RatePlayersPage> {
             child: ElevatedButton(
               onPressed: () => Navigator.pop(ctx),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
+                backgroundColor: AppColors.brand,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
@@ -171,11 +172,11 @@ class _RatePlayersPageState extends State<RatePlayersPage> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(tr(context, 'ratePlayers')),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: AppColors.brand,
         centerTitle: true,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: Colors.deepPurple))
+          ? const Center(child: CircularProgressIndicator(color: AppColors.brand))
           : _players.isEmpty
               ? Center(
                   child: Column(
@@ -202,7 +203,7 @@ class _RatePlayersPageState extends State<RatePlayersPage> {
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [Colors.deepPurple, Colors.deepPurple.shade700],
+                          colors: [AppColors.brand, AppColors.brandPressed],
                         ),
                       ),
                       child: Column(
@@ -259,7 +260,7 @@ class _RatePlayersPageState extends State<RatePlayersPage> {
                               ? null
                               : _submitRatings,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepPurple,
+                            backgroundColor: AppColors.brand,
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
@@ -302,10 +303,10 @@ class _RatePlayersPageState extends State<RatePlayersPage> {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        color: isDark ? AppColors.dSurface : Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: currentRating != null
-            ? Border.all(color: Colors.deepPurple.withOpacity(0.5), width: 2)
+            ? Border.all(color: AppColors.brand.withOpacity(0.5), width: 2)
             : null,
         boxShadow: [
           BoxShadow(

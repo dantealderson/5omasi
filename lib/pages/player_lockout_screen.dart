@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 import 'package:khomasi/l10n/app_localizations.dart';
 
 class PlayerLockoutScreen extends StatelessWidget {
@@ -25,7 +26,7 @@ class PlayerLockoutScreen extends StatelessWidget {
     final endTime = matchStartTime.add(Duration(minutes: durationMinutes));
     
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF121212) : Colors.grey[100],
+      backgroundColor: isDark ? AppColors.dNight : Colors.grey[100],
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -47,13 +48,13 @@ class PlayerLockoutScreen extends StatelessWidget {
                     width: 120,
                     height: 120,
                     decoration: BoxDecoration(
-                      color: Colors.deepPurple.withOpacity(0.1),
+                      color: AppColors.brand.withOpacity(0.1),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
                       Icons.sports_soccer,
                       size: 60,
-                      color: Colors.deepPurple,
+                      color: AppColors.brand,
                     ),
                   ),
                 ),
@@ -91,7 +92,7 @@ class PlayerLockoutScreen extends StatelessWidget {
                   width: double.infinity,
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+                    color: isDark ? AppColors.dSurface : Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
@@ -109,12 +110,12 @@ class PlayerLockoutScreen extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: Colors.deepPurple.withOpacity(0.1),
+                              color: AppColors.brand.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Icon(
                               Icons.stadium,
-                              color: Colors.deepPurple,
+                              color: AppColors.brand,
                               size: 24,
                             ),
                           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 import 'package:flutter/services.dart';
 import 'package:khomasi/components/my_button.dart';
 import 'package:khomasi/l10n/app_localizations.dart';
@@ -34,7 +35,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(tr(context, 'contactUs')),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: AppColors.brand,
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -49,14 +50,14 @@ class _ContactUsPageState extends State<ContactUsPage> {
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Colors.deepPurple, Colors.deepPurple.shade700],
+                    colors: [AppColors.brand, AppColors.brandPressed],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.deepPurple.withOpacity(0.3),
+                      color: AppColors.brand.withOpacity(0.3),
                       blurRadius: 20,
                       offset: const Offset(0, 10),
                     ),
@@ -180,7 +181,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                       labelText: tr(context, 'fullName'),
                       prefixIcon: const Icon(
                         Icons.person_outline,
-                        color: Colors.deepPurple,
+                        color: AppColors.brand,
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -188,7 +189,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(
-                          color: Colors.deepPurple,
+                          color: AppColors.brand,
                           width: 2,
                         ),
                       ),
@@ -213,7 +214,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                       labelText: tr(context, 'email'),
                       prefixIcon: const Icon(
                         Icons.email_outlined,
-                        color: Colors.deepPurple,
+                        color: AppColors.brand,
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -221,7 +222,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(
-                          color: Colors.deepPurple,
+                          color: AppColors.brand,
                           width: 2,
                         ),
                       ),
@@ -248,7 +249,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                       labelText: tr(context, 'inquiryType'),
                       prefixIcon: const Icon(
                         Icons.category_outlined,
-                        color: Colors.deepPurple,
+                        color: AppColors.brand,
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -256,7 +257,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(
-                          color: Colors.deepPurple,
+                          color: AppColors.brand,
                           width: 2,
                         ),
                       ),
@@ -302,7 +303,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                       labelText: tr(context, 'subject'),
                       prefixIcon: const Icon(
                         Icons.subject,
-                        color: Colors.deepPurple,
+                        color: AppColors.brand,
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -310,7 +311,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(
-                          color: Colors.deepPurple,
+                          color: AppColors.brand,
                           width: 2,
                         ),
                       ),
@@ -338,7 +339,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                         padding: EdgeInsets.only(bottom: 80),
                         child: Icon(
                           Icons.message_outlined,
-                          color: Colors.deepPurple,
+                          color: AppColors.brand,
                         ),
                       ),
                       border: OutlineInputBorder(
@@ -347,7 +348,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(
-                          color: Colors.deepPurple,
+                          color: AppColors.brand,
                           width: 2,
                         ),
                       ),
@@ -373,7 +374,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                     child: MyButton(
                       onTap: _submitForm,
                       text: tr(context, 'sendMessage'),
-                      backgroundColor: Colors.deepPurple,
+                      backgroundColor: AppColors.brand,
                       textColor: Theme.of(context).cardColor,
                       borderRadius: 12,
                       height: 55,

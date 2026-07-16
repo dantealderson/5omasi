@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 import 'package:flutter/services.dart';
 import 'package:khomasi/l10n/app_localizations.dart';
 
@@ -68,7 +69,7 @@ class RefereeMatchCard extends StatelessWidget {
                   child: Container(
                     width: 110,
                     height: 130,
-                    color: Colors.deepPurple.shade100,
+                    color: AppColors.brandTint,
                     child: pitchImageUrl != null
                         ? Image.network(
                             pitchImageUrl!,
@@ -107,7 +108,7 @@ class RefereeMatchCard extends StatelessWidget {
                                 vertical: 3,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.deepPurple.withOpacity(0.1),
+                                color: AppColors.brand.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
@@ -115,7 +116,7 @@ class RefereeMatchCard extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600,
-                                  color: Colors.deepPurple.shade700,
+                                  color: AppColors.brandPressed,
                                 ),
                               ),
                             ),
@@ -149,7 +150,7 @@ class RefereeMatchCard extends StatelessWidget {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                 decoration: BoxDecoration(
-                                  color: Colors.deepPurple.withOpacity(0.1),
+                                  color: AppColors.brand.withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Row(
@@ -158,7 +159,7 @@ class RefereeMatchCard extends StatelessWidget {
                                     Icon(
                                       Icons.near_me,
                                       size: 12,
-                                      color: Colors.deepPurple,
+                                      color: AppColors.brand,
                                     ),
                                     const SizedBox(width: 4),
                                     Text(
@@ -168,7 +169,7 @@ class RefereeMatchCard extends StatelessWidget {
                                       style: TextStyle(
                                         fontSize: 11,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.deepPurple,
+                                        color: AppColors.brand,
                                       ),
                                     ),
                                   ],
@@ -186,13 +187,13 @@ class RefereeMatchCard extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: Colors.deepPurple.withOpacity(0.1),
+                                color: AppColors.brand.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Icon(
                                 Icons.access_time_filled,
                                 size: 20,
-                                color: Colors.deepPurple.shade600,
+                                color: AppColors.brandPressed,
                               ),
                             ),
                             const SizedBox(width: 10),
@@ -204,7 +205,7 @@ class RefereeMatchCard extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 22,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.deepPurple.shade700,
+                                    color: AppColors.brandPressed,
                                   ),
                                 ),
                                 Text(
@@ -263,7 +264,7 @@ class RefereeMatchCard extends StatelessWidget {
                           size: 16,
                           color: currentPlayers == maxPlayers
                               ? Colors.green
-                              : Colors.deepPurple,
+                              : AppColors.brand,
                         ),
                         const SizedBox(width: 6),
                         Text(
@@ -318,7 +319,7 @@ class RefereeMatchCard extends StatelessWidget {
   Widget _buildMockImage(BuildContext context) {
     // Show placeholder when no image is available
     return Container(
-      color: Colors.deepPurple.shade50,
+      color: AppColors.brandTint,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -326,14 +327,14 @@ class RefereeMatchCard extends StatelessWidget {
             Icon(
               Icons.stadium,
               size: 40,
-              color: Colors.deepPurple.shade300,
+              color: AppColors.brand,
             ),
             const SizedBox(height: 4),
             Text(
               tr(context, 'stadium'),
               style: TextStyle(
                 fontSize: 12,
-                color: Colors.deepPurple.shade400,
+                color: AppColors.brand,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -349,7 +350,7 @@ class RefereeMatchCard extends StatelessWidget {
     } else if (isBooked) {
       return Colors.orange; // Booked but not time yet
     }
-    return Colors.deepPurple; // Not booked
+    return AppColors.brand; // Not booked
   }
 
   IconData _getButtonIcon() {

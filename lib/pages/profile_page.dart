@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
+import 'package:khomasi/theme/app_text.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -134,13 +136,13 @@ class _ProfilePageState extends State<ProfilePage>
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.deepPurple.withOpacity(0.1),
+                  color: AppColors.brand.withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.person_outline,
                   size: 80,
-                  color: Colors.deepPurple.withOpacity(0.6),
+                  color: AppColors.brand.withOpacity(0.6),
                 ),
               ),
               const SizedBox(height: 32),
@@ -185,7 +187,7 @@ class _ProfilePageState extends State<ProfilePage>
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple,
+                    backgroundColor: AppColors.brand,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                     elevation: 2,
@@ -215,7 +217,7 @@ class _ProfilePageState extends State<ProfilePage>
                     child: Text(
                       tr(context, 'login'),
                       style: const TextStyle(
-                        color: Colors.deepPurple,
+                        color: AppColors.brand,
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                       ),
@@ -265,10 +267,10 @@ class _ProfilePageState extends State<ProfilePage>
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: userProvider.isLoading
-          ? const Center(child: CircularProgressIndicator(color: Colors.deepPurple))
+          ? const Center(child: CircularProgressIndicator(color: AppColors.brand))
           : RefreshIndicator(
               onRefresh: () => userProvider.refresh(),
-              color: Colors.deepPurple,
+              color: AppColors.brand,
               child: CustomScrollView(
               slivers: [
                 // Custom App Bar with Cover Image
@@ -276,7 +278,7 @@ class _ProfilePageState extends State<ProfilePage>
                   expandedHeight: coverHeight,
                   floating: false,
                   pinned: true,
-                  backgroundColor: Colors.deepPurple,
+                  backgroundColor: AppColors.brand,
                   flexibleSpace: LayoutBuilder(
                     builder: (BuildContext context, BoxConstraints constraints) {
                       final bool isCollapsed = constraints.biggest.height <=
@@ -298,7 +300,7 @@ class _ProfilePageState extends State<ProfilePage>
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) =>
                                         Container(
-                                      color: Colors.deepPurple.shade300,
+                                      color: AppColors.brand,
                                       child: const Icon(
                                         Icons.sports_soccer,
                                         size: 100,
@@ -347,7 +349,7 @@ class _ProfilePageState extends State<ProfilePage>
                                 ),
                                 child: CircleAvatar(
                                   radius: profileHeight / 2,
-                                  backgroundColor: Colors.deepPurple.shade100,
+                                  backgroundColor: AppColors.brandTint,
                                   backgroundImage: userPhotoUrl != null
                                       ? NetworkImage(userPhotoUrl)
                                       : null,
@@ -357,7 +359,7 @@ class _ProfilePageState extends State<ProfilePage>
                                           style: const TextStyle(
                                             fontSize: 40,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.deepPurple,
+                                            color: AppColors.brand,
                                           ),
                                         )
                                       : null,
@@ -383,11 +385,8 @@ class _ProfilePageState extends State<ProfilePage>
                         // Name and member since
                         Text(
                           userName,
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: isDark ? Colors.white : Colors.black87,
-                          ),
+                          style: AppText.kufi(
+                              size: 26, weight: 700, color: context.palette.textHi),
                         ),
                         const SizedBox(height: 4),
                         Text(
@@ -495,11 +494,10 @@ class _ProfilePageState extends State<ProfilePage>
                                       children: [
                                         Text(
                                           averageRating.toStringAsFixed(1),
-                                          style: TextStyle(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.bold,
-                                            color: isDark ? Colors.white : Colors.black87,
-                                          ),
+                                          style: AppText.mono(
+                                              size: 22,
+                                              weight: FontWeight.w700,
+                                              color: context.palette.textHi),
                                         ),
                                         Text(
                                           '($totalRatings ${tr(context, 'ratingsCount')})',
@@ -610,8 +608,8 @@ class _ProfilePageState extends State<ProfilePage>
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
-                                    Colors.deepPurple,
-                                    Colors.deepPurple.shade700,
+                                    AppColors.brand,
+                                    AppColors.brandPressed,
                                   ],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
@@ -619,7 +617,7 @@ class _ProfilePageState extends State<ProfilePage>
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.deepPurple.withOpacity(0.3),
+                                    color: AppColors.brand.withOpacity(0.3),
                                     blurRadius: 20,
                                     offset: const Offset(0, 10),
                                   ),
@@ -641,11 +639,10 @@ class _ProfilePageState extends State<ProfilePage>
                                       const SizedBox(height: 8),
                                       Text(
                                         '${winRate.toStringAsFixed(1)}%',
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 32,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        style: AppText.mono(
+                                            size: 30,
+                                            weight: FontWeight.w700,
+                                            color: Colors.white),
                                       ),
                                     ],
                                   ),
@@ -710,11 +707,10 @@ class _ProfilePageState extends State<ProfilePage>
                                           children: [
                                             Text(
                                               '$matchTokens',
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 32,
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                              style: AppText.mono(
+                                                  size: 30,
+                                                  weight: FontWeight.w700,
+                                                  color: Colors.white),
                                             ),
                                             const SizedBox(width: 8),
                                             Padding(
@@ -965,7 +961,7 @@ class _ProfilePageState extends State<ProfilePage>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: isDark ? const Color(0xFF1F1F1F) : Colors.white,
+        backgroundColor: isDark ? AppColors.dSurface : Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
           tr(context, 'logout'),
@@ -1017,11 +1013,8 @@ class _ProfilePageState extends State<ProfilePage>
         const SizedBox(height: 8),
         Text(
           value,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: isDark ? Colors.white : Colors.black87,
-          ),
+          style: AppText.mono(
+              size: 20, weight: FontWeight.w700, color: context.palette.textHi),
         ),
         Text(
           label,

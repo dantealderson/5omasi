@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
+import 'package:khomasi/theme/app_text.dart';
 import 'package:provider/provider.dart';
 import 'package:khomasi/providers/auth_provider.dart';
 import 'package:khomasi/providers/user_provider.dart';
@@ -158,7 +160,7 @@ class _LoginPageState extends State<LoginPage>
       context: context,
       barrierDismissible: false,
       builder: (ctx) => AlertDialog(
-        backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        backgroundColor: isDark ? AppColors.dSurface : Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -197,7 +199,7 @@ class _LoginPageState extends State<LoginPage>
             child: ElevatedButton(
               onPressed: () => Navigator.pop(ctx),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
+                backgroundColor: AppColors.brand,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 padding: const EdgeInsets.symmetric(vertical: 12),
               ),
@@ -215,7 +217,7 @@ class _LoginPageState extends State<LoginPage>
       context: context,
       barrierDismissible: false,
       builder: (ctx) => AlertDialog(
-        backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        backgroundColor: isDark ? AppColors.dSurface : Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -251,7 +253,7 @@ class _LoginPageState extends State<LoginPage>
               Text(
                 subtitle,
                 style: const TextStyle(
-                  color: Colors.deepPurple,
+                  color: AppColors.brand,
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                 ),
@@ -266,7 +268,7 @@ class _LoginPageState extends State<LoginPage>
             child: ElevatedButton(
               onPressed: () => Navigator.pop(ctx),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
+                backgroundColor: AppColors.brand,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 padding: const EdgeInsets.symmetric(vertical: 12),
               ),
@@ -316,7 +318,7 @@ class _LoginPageState extends State<LoginPage>
     final email = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        backgroundColor: isDark ? AppColors.dSurface : Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
           tr(context, 'resetPassword'),
@@ -344,13 +346,13 @@ class _LoginPageState extends State<LoginPage>
               textDirection: TextDirection.ltr,
               decoration: InputDecoration(
                 labelText: tr(context, 'email'),
-                prefixIcon: const Icon(Icons.email_outlined, color: Colors.deepPurple),
+                prefixIcon: const Icon(Icons.email_outlined, color: AppColors.brand),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
+                  borderSide: const BorderSide(color: AppColors.brand, width: 2),
                 ),
                 filled: true,
                 fillColor: isDark ? Colors.grey[800] : Colors.grey[100],
@@ -375,7 +377,7 @@ class _LoginPageState extends State<LoginPage>
               }
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.deepPurple,
+              backgroundColor: AppColors.brand,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
             child: Text(tr(context, 'send'), style: const TextStyle(color: Colors.white)),
@@ -407,7 +409,7 @@ class _LoginPageState extends State<LoginPage>
         context: context,
         barrierDismissible: false,
         builder: (ctx) => AlertDialog(
-          backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+          backgroundColor: isDark ? AppColors.dSurface : Colors.white,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -442,7 +444,7 @@ class _LoginPageState extends State<LoginPage>
               Text(
                 email,
                 style: const TextStyle(
-                  color: Colors.deepPurple,
+                  color: AppColors.brand,
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                 ),
@@ -465,7 +467,7 @@ class _LoginPageState extends State<LoginPage>
               child: ElevatedButton(
                 onPressed: () => Navigator.pop(ctx),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
+                  backgroundColor: AppColors.brand,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
@@ -510,20 +512,44 @@ class _LoginPageState extends State<LoginPage>
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final p = context.palette;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: p.background,
       body: Stack(
         children: [
-          // Background gradient
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: isDark
-                    ? [const Color(0xFF1A1A2E), const Color(0xFF121212)]
-                    : [Colors.deepPurple.shade50, Colors.grey[100]!],
+          // Floodlit night backdrop
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: isDark
+                      ? [const Color(0xFF10201C), p.background]
+                      : [AppColors.brandTint, p.background],
+                ),
+              ),
+            ),
+          ),
+          // Floodlight glow behind the wordmark
+          Positioned(
+            top: -60,
+            left: 0,
+            right: 0,
+            child: IgnorePointer(
+              child: Container(
+                height: 340,
+                decoration: BoxDecoration(
+                  gradient: RadialGradient(
+                    center: Alignment.topCenter,
+                    radius: 0.9,
+                    colors: [
+                      p.emerald.withOpacity(isDark ? 0.22 : 0.16),
+                      p.background.withOpacity(0),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
@@ -543,40 +569,42 @@ class _LoginPageState extends State<LoginPage>
                       FadeTransition(
                         opacity: _fadeAnimation,
                         child: Container(
-                          height: 120,
-                          width: 120,
+                          height: 106,
+                          width: 106,
                           decoration: BoxDecoration(
-                            color: Colors.deepPurple,
-                            borderRadius: BorderRadius.circular(30),
+                            color: p.emerald,
+                            borderRadius: BorderRadius.circular(28),
+                            border: Border.all(
+                                color: p.gold.withOpacity(0.6), width: 1.5),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.deepPurple.withOpacity(0.3),
-                                blurRadius: 20,
-                                offset: const Offset(0, 10),
+                                color: p.emerald.withOpacity(0.4),
+                                blurRadius: 34,
+                                spreadRadius: -4,
+                                offset: const Offset(0, 12),
                               ),
                             ],
                           ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.sports_soccer,
-                              size: 60,
-                              color: Colors.white,
-                            ),
+                          child: Icon(
+                            Icons.sports_soccer,
+                            size: 54,
+                            color: AppColors.onBrand,
                           ),
                         ),
                       ),
 
                       SizedBox(height: screenHeight * 0.03),
 
-                      // Title
+                      // Wordmark — Reem Kufi
                       FadeTransition(
                         opacity: _fadeAnimation,
                         child: Text(
                           tr(context, 'appName'),
-                          style: TextStyle(
-                            fontSize: 36,
-                            fontWeight: FontWeight.bold,
-                            color: isDark ? Colors.white : Colors.deepPurple,
+                          style: AppText.kufi(
+                            size: 44,
+                            weight: 700,
+                            color: p.textHi,
+                            letterSpacing: 1,
                           ),
                         ),
                       ),
@@ -648,7 +676,7 @@ class _LoginPageState extends State<LoginPage>
                                 child: Text(
                                   tr(context, 'forgotPassword'),
                                   style: TextStyle(
-                                    color: Colors.deepPurple,
+                                    color: AppColors.brand,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14,
                                   ),
@@ -671,28 +699,28 @@ class _LoginPageState extends State<LoginPage>
                           child: ElevatedButton(
                             onPressed: isLoading ? null : signUserIn,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.deepPurple,
-                              foregroundColor: Colors.white,
-                              disabledBackgroundColor: Colors.deepPurple.shade300,
+                              backgroundColor: p.emerald,
+                              foregroundColor: p.onEmerald,
+                              disabledBackgroundColor: p.emerald,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(14),
                               ),
-                              elevation: 4,
+                              elevation: 0,
                             ),
                             child: isLoading
-                                ? const SizedBox(
+                                ? SizedBox(
                                     width: 24,
                                     height: 24,
                                     child: CircularProgressIndicator(
-                                      color: Colors.white,
+                                      color: p.onEmerald,
                                       strokeWidth: 2,
                                     ),
                                   )
                                 : Text(
                                     tr(context, 'login'),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 16,
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
                           ),
@@ -800,7 +828,7 @@ class _LoginPageState extends State<LoginPage>
                               child: Text(
                                 tr(context, 'createAccountHere'),
                                 style: TextStyle(
-                                  color: Colors.deepPurple,
+                                  color: AppColors.brand,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -833,7 +861,7 @@ class _LoginPageState extends State<LoginPage>
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 25),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1F1F1F) : Colors.grey[100],
+        color: isDark ? AppColors.dSurface : Colors.grey[100],
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -866,7 +894,7 @@ class _LoginPageState extends State<LoginPage>
             color: isDark ? Colors.grey[500] : Colors.grey[500],
           ),
           filled: true,
-          fillColor: isDark ? const Color(0xFF1F1F1F) : Colors.grey[100],
+          fillColor: isDark ? AppColors.dSurface : Colors.grey[100],
         ),
       ),
     );

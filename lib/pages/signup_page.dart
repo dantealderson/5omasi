@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
+import 'package:khomasi/theme/app_text.dart';
 import 'package:provider/provider.dart';
 import 'package:khomasi/providers/auth_provider.dart';
 import 'package:khomasi/providers/user_provider.dart';
@@ -191,20 +193,43 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final p = context.palette;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: p.background,
       body: Stack(
         children: [
-          // Background gradient
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: isDark
-                    ? [const Color(0xFF1A1A2E), const Color(0xFF121212)]
-                    : [Colors.deepPurple.shade50, Colors.grey[100]!],
+          // Floodlit night backdrop
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: isDark
+                      ? [const Color(0xFF10201C), p.background]
+                      : [AppColors.brandTint, p.background],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: -60,
+            left: 0,
+            right: 0,
+            child: IgnorePointer(
+              child: Container(
+                height: 320,
+                decoration: BoxDecoration(
+                  gradient: RadialGradient(
+                    center: Alignment.topCenter,
+                    radius: 0.9,
+                    colors: [
+                      p.emerald.withOpacity(isDark ? 0.20 : 0.14),
+                      p.background.withOpacity(0),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
@@ -224,22 +249,26 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                       FadeTransition(
                         opacity: _fadeAnimation,
                         child: Container(
-                          padding: const EdgeInsets.all(24),
+                          height: 100,
+                          width: 100,
                           decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
-                            shape: BoxShape.circle,
+                            color: p.emerald,
+                            borderRadius: BorderRadius.circular(26),
+                            border: Border.all(
+                                color: p.gold.withOpacity(0.6), width: 1.5),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.deepPurple.withOpacity(isDark ? 0.4 : 0.2),
-                                blurRadius: 20,
-                                spreadRadius: 5,
+                                color: p.emerald.withOpacity(0.35),
+                                blurRadius: 30,
+                                spreadRadius: -4,
+                                offset: const Offset(0, 12),
                               ),
                             ],
                           ),
-                          child: const Icon(
-                            Icons.person_add,
-                            size: 56,
-                            color: Colors.deepPurple,
+                          child: Icon(
+                            Icons.person_add_alt_1,
+                            size: 50,
+                            color: AppColors.onBrand,
                           ),
                         ),
                       ),
@@ -254,19 +283,13 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                             children: [
                               Text(
                                 tr(context, 'appName'),
-                                style: const TextStyle(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.deepPurple,
-                                ),
+                                style: AppText.kufi(
+                                    size: 40, weight: 700, color: p.textHi),
                               ),
                               const SizedBox(height: 8),
                               Text(
                                 tr(context, 'joinKhomasiFamily'),
-                                style: TextStyle(
-                                  color: isDark ? Colors.grey[400] : Colors.grey[700],
-                                  fontSize: 16,
-                                ),
+                                style: TextStyle(color: p.textMid, fontSize: 16),
                               ),
                             ],
                           ),
@@ -282,7 +305,7 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                           margin: const EdgeInsets.symmetric(horizontal: 25),
                           padding: const EdgeInsets.all(4),
                           decoration: BoxDecoration(
-                            color: isDark ? const Color(0xFF1F1F1F) : Colors.grey[200],
+                            color: isDark ? AppColors.dSurface : Colors.grey[200],
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Row(
@@ -295,7 +318,7 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                                     padding: const EdgeInsets.symmetric(vertical: 12),
                                     decoration: BoxDecoration(
                                       color: selectedRole == 'player' 
-                                          ? Colors.deepPurple 
+                                          ? AppColors.brand 
                                           : Colors.transparent,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -334,7 +357,7 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                                     padding: const EdgeInsets.symmetric(vertical: 12),
                                     decoration: BoxDecoration(
                                       color: selectedRole == 'referee' 
-                                          ? Colors.deepPurple 
+                                          ? AppColors.brand 
                                           : Colors.transparent,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -466,13 +489,13 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                           child: isLoading
                               ? const Center(
                                   child: CircularProgressIndicator(
-                                    color: Colors.deepPurple,
+                                    color: AppColors.brand,
                                   ),
                                 )
                               : ElevatedButton(
                                   onPressed: signUserUp,
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.deepPurple,
+                                    backgroundColor: AppColors.brand,
                                     foregroundColor: Colors.white,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
@@ -591,7 +614,7 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                               child: Text(
                                 tr(context, 'signInHere'),
                                 style: const TextStyle(
-                                  color: Colors.deepPurple,
+                                  color: AppColors.brand,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -624,7 +647,7 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 25),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1F1F1F) : Colors.grey[100],
+        color: isDark ? AppColors.dSurface : Colors.grey[100],
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -657,7 +680,7 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
             color: isDark ? Colors.grey[500] : Colors.grey[500],
           ),
           filled: true,
-          fillColor: isDark ? const Color(0xFF1F1F1F) : Colors.grey[100],
+          fillColor: isDark ? AppColors.dSurface : Colors.grey[100],
         ),
       ),
     );

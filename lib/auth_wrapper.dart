@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:khomasi/providers/auth_provider.dart';
 import 'package:khomasi/providers/user_provider.dart';
@@ -32,7 +33,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircularProgressIndicator(color: Colors.deepPurple),
+              CircularProgressIndicator(color: AppColors.brand),
               SizedBox(height: 16),
               Text(
                 'جاري التحميل...',
@@ -73,7 +74,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircularProgressIndicator(color: Colors.deepPurple),
+              CircularProgressIndicator(color: AppColors.brand),
               SizedBox(height: 16),
               Text(
                 'جاري تحميل بياناتك...',
@@ -92,7 +93,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircularProgressIndicator(color: Colors.deepPurple),
+              CircularProgressIndicator(color: AppColors.brand),
               SizedBox(height: 16),
               Text(
                 'جاري تحميل بياناتك...',

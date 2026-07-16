@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:khomasi/l10n/app_localizations.dart';
@@ -165,7 +166,7 @@ class _MatchChatPageState extends State<MatchChatPage> with WidgetsBindingObserv
     return Scaffold(
       appBar: AppBar(
         title: Text(tr(context, 'matchChat')),
-        backgroundColor: isDark ? const Color(0xFF1F1F1F) : Colors.deepPurple,
+        backgroundColor: isDark ? AppColors.dSurface : AppColors.brand,
         foregroundColor: Colors.white,
         elevation: 0,
       ),
@@ -284,7 +285,7 @@ class _MatchChatPageState extends State<MatchChatPage> with WidgetsBindingObserv
               child: CircleAvatar(
                 radius: 8,
                 backgroundImage: photoUrl.isNotEmpty ? NetworkImage(photoUrl) : null,
-                backgroundColor: Colors.deepPurple[200],
+                backgroundColor: AppColors.brand,
                 child: photoUrl.isEmpty
                     ? Text(
                         name.isNotEmpty ? name[0].toUpperCase() : '?',
@@ -317,7 +318,7 @@ class _MatchChatPageState extends State<MatchChatPage> with WidgetsBindingObserv
         backgroundImage: senderPhotoUrl != null && senderPhotoUrl.isNotEmpty
             ? NetworkImage(senderPhotoUrl)
             : null,
-        backgroundColor: Colors.deepPurple[200],
+        backgroundColor: AppColors.brand,
         child: senderPhotoUrl == null || senderPhotoUrl.isEmpty
             ? Text(senderName.isNotEmpty ? senderName[0].toUpperCase() : '?',
                 style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold))
@@ -354,7 +355,7 @@ class _MatchChatPageState extends State<MatchChatPage> with WidgetsBindingObserv
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: Colors.deepPurple[300],
+                            color: AppColors.brand,
                           ),
                         ),
                       ),
@@ -362,8 +363,8 @@ class _MatchChatPageState extends State<MatchChatPage> with WidgetsBindingObserv
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                       decoration: BoxDecoration(
                         color: isMe
-                            ? Colors.deepPurple
-                            : (isDark ? const Color(0xFF2A2A2A) : Colors.grey[200]),
+                            ? AppColors.brand
+                            : (isDark ? AppColors.dRaised : Colors.grey[200]),
                         borderRadius: BorderRadius.only(
                           topLeft: const Radius.circular(16),
                           topRight: const Radius.circular(16),
@@ -413,7 +414,7 @@ class _MatchChatPageState extends State<MatchChatPage> with WidgetsBindingObserv
         bottom: MediaQuery.of(context).padding.bottom + 8,
       ),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1F1F1F) : Colors.white,
+        color: isDark ? AppColors.dSurface : Colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(isDark ? 0.3 : 0.1),
@@ -435,7 +436,7 @@ class _MatchChatPageState extends State<MatchChatPage> with WidgetsBindingObserv
                 hintText: tr(context, 'typeMessage'),
                 hintStyle: TextStyle(color: Colors.grey[500]),
                 filled: true,
-                fillColor: isDark ? const Color(0xFF2A2A2A) : Colors.grey[100],
+                fillColor: isDark ? AppColors.dRaised : Colors.grey[100],
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(24),
@@ -446,7 +447,7 @@ class _MatchChatPageState extends State<MatchChatPage> with WidgetsBindingObserv
           ),
           const SizedBox(width: 8),
           Material(
-            color: Colors.deepPurple,
+            color: AppColors.brand,
             shape: const CircleBorder(),
             child: InkWell(
               onTap: _isSending ? null : _sendMessage,

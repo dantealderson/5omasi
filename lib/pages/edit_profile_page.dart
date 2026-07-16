@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:khomasi/providers/user_provider.dart';
@@ -73,7 +74,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(tr(context, 'editProfile')),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: AppColors.brand,
         foregroundColor: Colors.white,
         centerTitle: true,
         actions: [
@@ -125,7 +126,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                   child: CircleAvatar(
                     radius: 50,
-                    backgroundColor: Colors.deepPurple.shade100,
+                    backgroundColor: AppColors.brandTint,
                     backgroundImage: userPhotoUrl != null
                         ? NetworkImage(userPhotoUrl)
                         : null,
@@ -135,7 +136,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             style: const TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
-                              color: Colors.deepPurple,
+                              color: AppColors.brand,
                             ),
                           )
                         : null,
@@ -222,8 +223,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 child: ElevatedButton(
                   onPressed: _isLoading ? null : _saveProfile,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple,
-                    disabledBackgroundColor: Colors.deepPurple.shade300,
+                    backgroundColor: AppColors.brand,
+                    disabledBackgroundColor: AppColors.brand,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -273,7 +274,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       style: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.bold,
-        color: isDark ? Colors.deepPurple.shade200 : Colors.deepPurple,
+        color: isDark ? AppColors.brand : AppColors.brand,
       ),
     );
   }
@@ -304,14 +305,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
         labelStyle: TextStyle(
           color: isDark ? Colors.grey[400] : Colors.grey[600],
         ),
-        prefixIcon: Icon(icon, color: Colors.deepPurple),
+        prefixIcon: Icon(icon, color: AppColors.brand),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: isDark ? Colors.grey[700]! : Colors.grey[300]!),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
+          borderSide: const BorderSide(color: AppColors.brand, width: 2),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -322,7 +323,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           borderSide: BorderSide(color: isDark ? Colors.grey[800]! : Colors.grey[200]!),
         ),
         filled: true,
-        fillColor: isDark ? const Color(0xFF2A2A2A) : Colors.white,
+        fillColor: isDark ? AppColors.dRaised : Colors.white,
       ),
     );
   }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
+import 'package:khomasi/theme/app_text.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -128,7 +130,7 @@ class _RefereePageState extends State<RefereePage> {
       builder: (context) => Container(
         height: MediaQuery.of(context).size.height * 0.75,
         decoration: BoxDecoration(
-          color: isDark ? const Color(0xFF1F1F1F) : Colors.white,
+          color: isDark ? AppColors.dSurface : Colors.white,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         ),
         child: Column(
@@ -156,7 +158,7 @@ class _RefereePageState extends State<RefereePage> {
                       child: Container(
                         width: double.infinity,
                         height: 180,
-                        color: Colors.deepPurple.shade100,
+                        color: AppColors.brandTint,
                         child: data['pitchImageUrl'] != null
                             ? Image.network(
                                 data['pitchImageUrl'], 
@@ -185,14 +187,14 @@ class _RefereePageState extends State<RefereePage> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
-                            color: Colors.deepPurple.withOpacity(0.1),
+                            color: AppColors.brand.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Text(
                             data['pitchSize'] ?? '5×5',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Colors.deepPurple.shade700,
+                              color: AppColors.brandPressed,
                             ),
                           ),
                         ),
@@ -242,15 +244,15 @@ class _RefereePageState extends State<RefereePage> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
-                            color: Colors.deepPurple.withOpacity(0.1),
+                            color: AppColors.brand.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.map, color: Colors.deepPurple, size: 16),
+                              Icon(Icons.map, color: AppColors.brand, size: 16),
                               const SizedBox(width: 6),
-                              Text(tr(context, 'openInMaps'), style: TextStyle(color: Colors.deepPurple, fontSize: 13, fontWeight: FontWeight.bold)),
+                              Text(tr(context, 'openInMaps'), style: TextStyle(color: AppColors.brand, fontSize: 13, fontWeight: FontWeight.bold)),
                             ],
                           ),
                         ),
@@ -263,7 +265,7 @@ class _RefereePageState extends State<RefereePage> {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.deepPurple.withOpacity(0.1),
+                        color: AppColors.brand.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
@@ -271,13 +273,13 @@ class _RefereePageState extends State<RefereePage> {
                           Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: Colors.deepPurple.withOpacity(0.2),
+                              color: AppColors.brand.withOpacity(0.2),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Icon(
                               Icons.access_time_filled, 
                               size: 32, 
-                              color: Colors.deepPurple.shade600,
+                              color: AppColors.brandPressed,
                             ),
                           ),
                           const SizedBox(width: 16),
@@ -289,7 +291,7 @@ class _RefereePageState extends State<RefereePage> {
                                 style: TextStyle(
                                   fontSize: 26,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.deepPurple.shade700,
+                                  color: AppColors.brandPressed,
                                 ),
                               ),
                               Text(
@@ -313,7 +315,7 @@ class _RefereePageState extends State<RefereePage> {
                       ),
                       child: Row(
                         children: [
-                          Icon(Icons.people, color: Colors.deepPurple, size: 24),
+                          Icon(Icons.people, color: AppColors.brand, size: 24),
                           const SizedBox(width: 12),
                           Text(
                             tr(context, 'playersCount'),
@@ -350,7 +352,7 @@ class _RefereePageState extends State<RefereePage> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: isBooked ? Colors.red : Colors.deepPurple,
+                          backgroundColor: isBooked ? Colors.red : AppColors.brand,
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
@@ -380,11 +382,11 @@ class _RefereePageState extends State<RefereePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.stadium, size: 60, color: Colors.deepPurple.shade300),
+          Icon(Icons.stadium, size: 60, color: AppColors.brand),
           const SizedBox(height: 8),
           Text(
             tr(context, 'stadiumImage'),
-            style: TextStyle(color: Colors.deepPurple.shade400),
+            style: TextStyle(color: AppColors.brand),
           ),
         ],
       ),
@@ -500,7 +502,7 @@ class _RefereePageState extends State<RefereePage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        backgroundColor: isDark ? AppColors.dSurface : Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         icon: Container(
           padding: const EdgeInsets.all(12),
@@ -532,7 +534,7 @@ class _RefereePageState extends State<RefereePage> {
             child: ElevatedButton(
               onPressed: () => Navigator.pop(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
+                backgroundColor: AppColors.brand,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 padding: const EdgeInsets.symmetric(vertical: 12),
@@ -595,7 +597,7 @@ class _RefereePageState extends State<RefereePage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        backgroundColor: isDark ? AppColors.dSurface : Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         icon: Container(
           padding: const EdgeInsets.all(12),
@@ -621,7 +623,7 @@ class _RefereePageState extends State<RefereePage> {
             child: ElevatedButton(
               onPressed: () => Navigator.pop(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
+                backgroundColor: AppColors.brand,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 padding: const EdgeInsets.symmetric(vertical: 12),
@@ -683,7 +685,6 @@ class _RefereePageState extends State<RefereePage> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     final userProvider = Provider.of<UserProvider>(context);
     
     // Get referee data from provider
@@ -695,167 +696,168 @@ class _RefereePageState extends State<RefereePage> {
     final thisWeekMatches = refereeStats?.thisWeekMatches ?? 0;
     final averageRating = refereeStats?.averageRating ?? 0.0;
     
+    final p = context.palette;
+
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: p.background,
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header with gradient
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: isDark
-                      ? [const Color(0xFF2D1F3D), const Color(0xFF1F1F1F)]
-                      : [Colors.deepPurple.shade400, Colors.deepPurple.shade700],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
-                ),
-              ),
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
-                  child: Column(
-                    children: [
-                      // Top bar with profile
-                      Row(
-                        children: [
-                          // Profile avatar
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (_) => const RefereeProfilePage()),
-                              );
-                            },
+            // Header — the official's card: flat, gold referee identity.
+            SafeArea(
+              bottom: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        // Gold-ringed avatar — the whistle-holder's badge.
+                        GestureDetector(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const RefereeProfilePage()),
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.all(2.5),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: p.gold, width: 2),
+                            ),
                             child: CircleAvatar(
-                              radius: 24,
-                              backgroundColor: Colors.white24,
+                              radius: 26,
+                              backgroundColor: p.surfaceRaised,
                               backgroundImage: refereePhotoUrl != null
                                   ? NetworkImage(refereePhotoUrl)
                                   : null,
                               child: refereePhotoUrl == null
-                                  ? const Icon(Icons.person, color: Colors.white)
+                                  ? Icon(Icons.sports, color: p.gold, size: 26)
                                   : null,
                             ),
                           ),
-                          const SizedBox(width: 12),
-                          
-                          // Name
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  tr(context, 'welcomeStadiums'),
-                                  style: TextStyle(
-                                    color: Colors.white.withOpacity(0.7),
-                                    fontSize: 13,
-                                  ),
-                                ),
-                                Text(
-                                  refereeName,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                          ),
-                          
-                          // Rating badge
-                          if (averageRating > 0)
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                              decoration: BoxDecoration(
-                                color: Colors.amber.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
+                        ),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
                                 children: [
-                                  const Icon(Icons.star, color: Colors.amber, size: 16),
-                                  const SizedBox(width: 4),
+                                  Icon(Icons.sports, size: 13, color: p.gold),
+                                  const SizedBox(width: 5),
                                   Text(
-                                    averageRating.toStringAsFixed(1),
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
+                                    tr(context, 'referee'),
+                                    style: TextStyle(
+                                      color: p.gold,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                      letterSpacing: 0.4,
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                          
-                          const SizedBox(width: 8),
-                          
-                          // Settings button
-                          IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (_) => const RefereeProfilePage()),
-                              );
-                            },
-                            icon: const Icon(Icons.settings, color: Colors.white),
+                              const SizedBox(height: 3),
+                              Text(
+                                refereeName,
+                                style: AppText.kufi(
+                                    size: 24, weight: 700, color: p.textHi),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      
-                      const SizedBox(height: 20),
-                      
-                      // Quick stats
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(16),
                         ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: _buildQuickStat(tr(context, 'today'), todayMatches.toString(), Icons.today),
-                            ),
-                            Container(
-                              height: 40,
-                              width: 1,
-                              color: Colors.white.withOpacity(0.2),
-                            ),
-                            Expanded(
-                              child: _buildQuickStat(tr(context, 'thisWeek'), thisWeekMatches.toString(), Icons.calendar_view_week),
-                            ),
-                            Container(
-                              height: 40,
-                              width: 1,
-                              color: Colors.white.withOpacity(0.2),
-                            ),
-                            Expanded(
-                              child: _buildQuickStat(tr(context, 'total'), totalMatchesRefereed.toString(), Icons.sports_score),
-                            ),
-                          ],
+                        IconButton(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const RefereeProfilePage()),
+                          ),
+                          icon: Icon(Icons.settings_outlined, color: p.textMid),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                    const SizedBox(height: 18),
+                    _buildStatStrip(p, todayMatches, thisWeekMatches,
+                        totalMatchesRefereed, averageRating),
+                  ],
                 ),
               ),
             ),
-            
-            const SizedBox(height: 20),
-            
+
+            const SizedBox(height: 24),
+
             // Available matches section
             _buildMatchesSection(),
-            
+
             const SizedBox(height: 100), // Space for bottom nav
           ],
         ),
+      ),
+    );
+  }
+
+  // ==========================================
+  // HEADER STAT STRIP
+  // ==========================================
+
+  Widget _buildStatStrip(
+      AppPalette p, int today, int week, int total, double rating) {
+    return Container(
+      decoration: BoxDecoration(
+        color: p.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: p.line),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: IntrinsicHeight(
+        child: Row(
+          children: [
+            _statTile(p, tr(context, 'today'), today.toString(),
+                Icons.today_outlined),
+            _statDivider(p),
+            _statTile(p, tr(context, 'thisWeek'), week.toString(),
+                Icons.date_range_outlined),
+            _statDivider(p),
+            _statTile(p, tr(context, 'total'), total.toString(),
+                Icons.workspace_premium_outlined),
+            if (rating > 0) ...[
+              _statDivider(p),
+              _statTile(p, tr(context, 'ratingsCount'),
+                  rating.toStringAsFixed(1), Icons.star_rounded,
+                  accent: p.gold),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _statDivider(AppPalette p) => Container(width: 1, color: p.line);
+
+  Widget _statTile(AppPalette p, String label, String value, IconData icon,
+      {Color? accent}) {
+    return Expanded(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 18, color: accent ?? p.textLow),
+          const SizedBox(height: 7),
+          Text(value,
+              style: AppText.mono(
+                  size: 20,
+                  color: accent ?? p.textHi,
+                  weight: FontWeight.w700)),
+          const SizedBox(height: 3),
+          Text(label,
+              style: TextStyle(color: p.textMid, fontSize: 11),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis),
+        ],
       ),
     );
   }
@@ -873,7 +875,7 @@ class _RefereePageState extends State<RefereePage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Padding(
             padding: EdgeInsets.all(32),
-            child: Center(child: CircularProgressIndicator(color: Colors.deepPurple)),
+            child: Center(child: CircularProgressIndicator(color: AppColors.brand)),
           );
         }
         
@@ -940,35 +942,41 @@ class _RefereePageState extends State<RefereePage> {
         
         return Column(
           children: [
-            // Header
+            // Section header
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.fromLTRB(20, 4, 20, 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     tr(context, 'availableMatches'),
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: AppText.kufi(
+                        size: 20, weight: 700, color: context.palette.textHi),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(20),
+                      color: context.palette.emeraldSoft,
+                      borderRadius: BorderRadius.circular(30),
                       border: Border.all(
-                        color: Colors.green.withOpacity(0.3),
-                      ),
+                          color: context.palette.emerald.withOpacity(0.4)),
                     ),
-                    child: Text(
-                      '${matches.length} ${tr(context, 'matches')}',
-                      style: TextStyle(
-                        color: Colors.green.shade700,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('${matches.length}',
+                            style: AppText.mono(
+                                size: 13,
+                                color: context.palette.emerald,
+                                weight: FontWeight.w700)),
+                        const SizedBox(width: 4),
+                        Text(tr(context, 'matches'),
+                            style: TextStyle(
+                                color: context.palette.emerald,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600)),
+                      ],
                     ),
                   ),
                 ],
@@ -978,21 +986,22 @@ class _RefereePageState extends State<RefereePage> {
             // Matches list
             if (matches.isEmpty)
               Padding(
-                padding: const EdgeInsets.all(32),
+                padding: const EdgeInsets.fromLTRB(32, 48, 32, 32),
                 child: Column(
                   children: [
                     Icon(
                       Icons.sports_soccer,
-                      size: 64,
-                      color: Colors.grey[400],
+                      size: 60,
+                      color: context.palette.textLow,
                     ),
                     const SizedBox(height: 16),
                     Text(
                       tr(context, 'noMatchesForReferee'),
                       style: TextStyle(
-                        color: Colors.grey[500],
-                        fontSize: 16,
+                        color: context.palette.textMid,
+                        fontSize: 15,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
@@ -1001,7 +1010,7 @@ class _RefereePageState extends State<RefereePage> {
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                 itemCount: matches.length,
                 itemBuilder: (context, index) {
                   final doc = matches[index];
@@ -1040,38 +1049,4 @@ class _RefereePageState extends State<RefereePage> {
     );
   }
   
-  // ==========================================
-  // QUICK STAT WIDGET
-  // ==========================================
-
-  Widget _buildQuickStat(String label, String value, IconData icon) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          icon,
-          color: Colors.white.withOpacity(0.7),
-          size: 20,
-        ),
-        const SizedBox(height: 6),
-        Text(
-          value,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          label,
-          style: TextStyle(
-            color: Colors.white.withOpacity(0.7),
-            fontSize: 11,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ],
-    );
-  }
 }

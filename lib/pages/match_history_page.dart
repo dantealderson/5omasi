@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
@@ -302,7 +303,7 @@ class _MatchHistoryPageState extends State<MatchHistoryPage> with SingleTickerPr
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(_isReferee ? tr(context, 'refereeMatches') : tr(context, 'matchHistory')),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: AppColors.brand,
         centerTitle: true,
         bottom: TabBar(
           controller: _tabController,
@@ -317,10 +318,10 @@ class _MatchHistoryPageState extends State<MatchHistoryPage> with SingleTickerPr
         ),
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: Colors.deepPurple))
+          ? const Center(child: CircularProgressIndicator(color: AppColors.brand))
           : RefreshIndicator(
               onRefresh: _loadMatchHistory,
-              color: Colors.deepPurple,
+              color: AppColors.brand,
               child: TabBarView(
                 controller: _tabController,
                 children: [
@@ -403,12 +404,12 @@ class _MatchHistoryPageState extends State<MatchHistoryPage> with SingleTickerPr
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
           color: isSelected 
-              ? Colors.deepPurple 
-              : (isDark ? const Color(0xFF2C2C2C) : Colors.white),
+              ? AppColors.brand 
+              : (isDark ? AppColors.dRaised : Colors.white),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isSelected 
-                ? Colors.deepPurple 
+                ? AppColors.brand 
                 : (isDark ? Colors.grey[700]! : Colors.grey[300]!),
             width: isSelected ? 2 : 1,
           ),
@@ -432,16 +433,16 @@ class _MatchHistoryPageState extends State<MatchHistoryPage> with SingleTickerPr
                 color: isSelected 
                     ? Colors.white 
                     : (isDark 
-                        ? Colors.deepPurple.withOpacity(0.2) 
-                        : Colors.deepPurple.withOpacity(0.1)),
+                        ? AppColors.brand.withOpacity(0.2) 
+                        : AppColors.brand.withOpacity(0.1)),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
                 count.toString(),
                 style: TextStyle(
                   color: isSelected 
-                      ? Colors.deepPurple 
-                      : (isDark ? Colors.deepPurple[300] : Colors.deepPurple),
+                      ? AppColors.brand 
+                      : (isDark ? AppColors.brand : AppColors.brand),
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                 ),
@@ -569,7 +570,7 @@ class _MatchHistoryPageState extends State<MatchHistoryPage> with SingleTickerPr
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                         decoration: BoxDecoration(
-                          color: isDark ? const Color(0xFF2C2C2C) : Colors.grey[100],
+                          color: isDark ? AppColors.dRaised : Colors.grey[100],
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: isDark ? Colors.grey[700]! : Colors.transparent,
@@ -694,8 +695,8 @@ class _MatchHistoryPageState extends State<MatchHistoryPage> with SingleTickerPr
                         icon: const Icon(Icons.star_outline_rounded, size: 20),
                         label: Text(tr(context, 'ratePlayers')),
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.deepPurple,
-                          side: const BorderSide(color: Colors.deepPurple),
+                          foregroundColor: AppColors.brand,
+                          side: const BorderSide(color: AppColors.brand),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -804,7 +805,7 @@ class _MatchHistoryPageState extends State<MatchHistoryPage> with SingleTickerPr
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.deepPurple.withOpacity(0.1),
+              color: AppColors.brand.withOpacity(0.1),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
@@ -812,7 +813,7 @@ class _MatchHistoryPageState extends State<MatchHistoryPage> with SingleTickerPr
             ),
             child: Row(
               children: [
-                const Icon(Icons.sports, color: Colors.deepPurple, size: 24),
+                const Icon(Icons.sports, color: AppColors.brand, size: 24),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -961,14 +962,14 @@ class _MatchHistoryPageState extends State<MatchHistoryPage> with SingleTickerPr
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.deepPurple, Colors.deepPurple.shade700],
+                colors: [AppColors.brand, AppColors.brandPressed],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.deepPurple.withOpacity(0.3),
+                  color: AppColors.brand.withOpacity(0.3),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -1160,14 +1161,14 @@ class _MatchHistoryPageState extends State<MatchHistoryPage> with SingleTickerPr
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.deepPurple, Colors.deepPurple.shade700],
+                colors: [AppColors.brand, AppColors.brandPressed],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.deepPurple.withOpacity(0.3),
+                  color: AppColors.brand.withOpacity(0.3),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -1350,7 +1351,7 @@ class _MatchHistoryPageState extends State<MatchHistoryPage> with SingleTickerPr
   Widget _buildAverageRow(String label, String value, IconData icon, {Color? iconColor}) {
     return Row(
       children: [
-        Icon(icon, color: iconColor ?? Colors.deepPurple, size: 20),
+        Icon(icon, color: iconColor ?? AppColors.brand, size: 20),
         const SizedBox(width: 12),
         Text(label),
         const Spacer(),
@@ -1379,7 +1380,7 @@ class _MatchHistoryPageState extends State<MatchHistoryPage> with SingleTickerPr
     
     return Column(
       children: [
-        Icon(icon, color: iconColor ?? Colors.deepPurple, size: 20),
+        Icon(icon, color: iconColor ?? AppColors.brand, size: 20),
         const SizedBox(height: 4),
         Text(
           value,

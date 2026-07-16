@@ -1,5 +1,6 @@
 // lib/root_page.dart - With Player Lockout for Active Matches
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -85,9 +86,9 @@ class _RootPageState extends State<RootPage> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        backgroundColor: isDark ? AppColors.dSurface : Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        icon: Icon(Icons.lock_outline, size: 48, color: Colors.deepPurple.withOpacity(0.7)),
+        icon: Icon(Icons.lock_outline, size: 48, color: AppColors.brand.withOpacity(0.7)),
         title: Text(
           tr(context, 'guestLoginRequired'),
           style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontWeight: FontWeight.bold),
@@ -108,8 +109,8 @@ class _RootPageState extends State<RootPage> {
                     Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginPage()));
                   },
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.deepPurple,
-                    side: const BorderSide(color: Colors.deepPurple),
+                    foregroundColor: AppColors.brand,
+                    side: const BorderSide(color: AppColors.brand),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     padding: const EdgeInsets.symmetric(vertical: 12),
                   ),
@@ -124,7 +125,7 @@ class _RootPageState extends State<RootPage> {
                     Navigator.push(context, MaterialPageRoute(builder: (_) => const SignUpPage()));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple,
+                    backgroundColor: AppColors.brand,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     padding: const EdgeInsets.symmetric(vertical: 12),
@@ -213,24 +214,14 @@ class _RootPageState extends State<RootPage> {
   }
 
   Widget _buildNormalUI() {
+    final p = context.palette;
     final bool showAppBar = _currentIndex != 0;
     final bottomPadding = MediaQuery.of(context).padding.bottom;
-    
+
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: p.background,
       appBar: showAppBar
-          ? AppBar(
-              backgroundColor: Colors.deepPurple,
-              centerTitle: true,
-              title: Text(
-                _titles(context)[_currentIndex],
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
-              elevation: 0,
-            )
+          ? AppBar(title: Text(_titles(context)[_currentIndex]))
           : null,
       body: IndexedStack(
         index: _currentIndex,
@@ -238,15 +229,16 @@ class _RootPageState extends State<RootPage> {
       ),
       bottomNavigationBar: Container(
         margin: EdgeInsets.fromLTRB(20, 0, 20, bottomPadding > 0 ? bottomPadding + 10 : 20),
-        height: 60,
+        height: 64,
         decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(30),
+          color: p.surface,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: p.line),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
-              blurRadius: 10,
-              offset: const Offset(0, 2),
+              color: Colors.black.withOpacity(p.isDark ? 0.4 : 0.1),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
             ),
           ],
         ),
@@ -289,28 +281,33 @@ class _RootPageState extends State<RootPage> {
     required String label,
     required int index,
   }) {
+    final p = context.palette;
     final bool isSelected = _currentIndex == index;
-    final color = isSelected ? Colors.deepPurple : Colors.grey;
-    
+    final color = isSelected ? p.emerald : p.textLow;
+
     return Expanded(
       child: InkWell(
         onTap: () => _onItemTapped(index),
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              isSelected ? activeIcon : icon,
-              color: color,
-              size: 24,
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              decoration: BoxDecoration(
+                color: isSelected ? p.emeraldSoft : Colors.transparent,
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Icon(isSelected ? activeIcon : icon, color: color, size: 23),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 3),
             Text(
               label,
               style: TextStyle(
                 color: color,
                 fontSize: 10,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
               ),
             ),
           ],

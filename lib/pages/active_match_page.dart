@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:khomasi/theme/app_colors.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
@@ -238,7 +239,7 @@ class _ActiveMatchPageState extends State<ActiveMatchPage> with TickerProviderSt
       context: context,
       barrierDismissible: false,
       builder: (dialogContext) => AlertDialog(
-        backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        backgroundColor: isDark ? AppColors.dSurface : Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
@@ -655,8 +656,8 @@ class _ActiveMatchPageState extends State<ActiveMatchPage> with TickerProviderSt
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: isDark
-                        ? [const Color(0xFF2D1F3D), const Color(0xFF1F1F1F)]
-                        : [Colors.deepPurple.shade400, Colors.deepPurple.shade600],
+                        ? [AppColors.dRaised, AppColors.dSurface]
+                        : [AppColors.brand, AppColors.brandPressed],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -712,9 +713,9 @@ class _ActiveMatchPageState extends State<ActiveMatchPage> with TickerProviderSt
                 ),
                 child: TabBar(
                   controller: _tabController,
-                  indicatorColor: Colors.deepPurple,
+                  indicatorColor: AppColors.brand,
                   indicatorWeight: 3,
-                  labelColor: Colors.deepPurple,
+                  labelColor: AppColors.brand,
                   unselectedLabelColor: Colors.grey,
                   tabs: [
                     Tab(
@@ -936,7 +937,7 @@ class _PlayerActionCardState extends State<_PlayerActionCard> {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        color: isDark ? AppColors.dSurface : Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: _isSuspended
@@ -968,7 +969,7 @@ class _PlayerActionCardState extends State<_PlayerActionCard> {
                       ? Colors.red.withOpacity(0.15)
                       : (isGuest
                           ? Colors.orange.withOpacity(0.2)
-                          : Colors.deepPurple.withOpacity(0.1)),
+                          : AppColors.brand.withOpacity(0.1)),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Center(
@@ -978,7 +979,7 @@ class _PlayerActionCardState extends State<_PlayerActionCard> {
                       fontWeight: FontWeight.bold,
                       color: _isSuspended
                           ? Colors.red
-                          : (isGuest ? Colors.orange : Colors.deepPurple),
+                          : (isGuest ? Colors.orange : AppColors.brand),
                     ),
                   ),
                 ),
@@ -1155,7 +1156,7 @@ class _StatBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
-        color: Colors.deepPurple.withOpacity(0.1),
+        color: AppColors.brand.withOpacity(0.1),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -1168,7 +1169,7 @@ class _StatBadge extends StatelessWidget {
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 12,
-              color: Colors.deepPurple,
+              color: AppColors.brand,
             ),
           ),
         ],
