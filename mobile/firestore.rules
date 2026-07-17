@@ -1,0 +1,204 @@
+rules_version = '2';
+
+// =============================================================================
+// Khomasi Firestore Security Rules
+// =============================================================================
+// IMPORTANT — READ BEFORE DEPLOYING:
+//
+// This app currently performs ALL sensitive writes from the client (token
+// balances, player/referee stats, match creation). These rules move the app
+// toward a secure "server-authoritative" model where money- and
+// reputation-bearing fields can ONLY be changed by the Cloudflare Worker
+// (which authenticates with the Firebase service account and BYPASSES these
+// rules).
+//
+// Deploying these rules will REJECT the following client writes until that
+// logic is moved into the Worker. You must migrate them first, or the
+// corresponding features will stop working:
+//   - TokenService.deductTokens / addTokens / refundTokens        (matchTokens, total*)
+//   - MatchProvider._deductTokensForBooking / _refundTokensForBooking
+//   - AuthService.updatePlayerStats / updateRefereeStats
+//   - UserService.updatePlayerStats / updateRefereeStats
+//   - profile_page._addTestToken  (should be deleted outright)
+//
+// Fields locked to the server are listed in userProtectedFields() below.
+// Deploy with:  firebase deploy --only firestore:rules
+// =============================================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---- helpers -----------------------------------------------------------
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    // Fields on a user document that a user must NOT be able to change about
+    // themselves. These are written only by the trusted server (service
+    // account), which is not subject to these rules.
+    function userProtectedFields() {
+      return [
+        'matchTokens',
+        'totalTokensPurchased',
+        'totalTokensUsed',
+        'playerStats',
+        'refereeStats',
+        'role'
+      ];
+    }
+
+    // True when the incoming update does not touch any protected field.
+    function onlyTouchesAllowedUserFields() {
+      return !request.resource.data.diff(resource.data)
+                .affectedKeys()
+                .hasAny(userProtectedFields());
+    }
+
+    // ---- users -------------------------------------------------------------
+    // Any signed-in user can read profiles (leaderboards, player pages, etc.).
+    // If you want stricter privacy, gate reads on request.auth.uid == uid plus
+    // a public-profile flag.
+    match /users/{uid} {
+      allow read: if isSignedIn();
+
+      // A user may create only their own document, and may not seed themselves
+      // a token/stat balance or elevate their role.
+      allow create: if isOwner(uid)
+                    && !request.resource.data.keys().hasAny(userProtectedFields());
+
+      // A user may update only their own document, and only non-protected
+      // fields. Token/stat/role changes must come from the server.
+      allow update: if isOwner(uid) && onlyTouchesAllowedUserFields();
+
+      allow delete: if isOwner(uid);
+    }
+
+    // ---- tokenTransactions -------------------------------------------------
+    // Immutable audit log. Users can read their own history. Writes come from
+    // the server (or from client code you have decided to trust); never allow
+    // update/delete so the ledger cannot be rewritten.
+    match /tokenTransactions/{txId} {
+      allow read: if isSignedIn() && resource.data.oderId == request.auth.uid;
+      allow create: if isSignedIn()
+                    && request.resource.data.oderId == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    // ---- matches -----------------------------------------------------------
+    // Signed-in users can read matches and create/join them. Tighten `update`
+    // later so only participants/referee/creator can mutate a given match.
+    match /matches/{matchId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn();
+      allow delete: if isSignedIn()
+                    && resource.data.createdBy == request.auth.uid;
+
+      // Per-match chat: only signed-in users; consider restricting to players
+      // listed on the parent match document.
+      match /chat/{msgId} {
+        allow read: if isSignedIn();
+        allow create: if isSignedIn()
+                      && request.resource.data.senderId == request.auth.uid;
+        allow update, delete: if isSignedIn()
+                      && resource.data.senderId == request.auth.uid;
+      }
+
+      match /chatReadReceipts/{receiptId} {
+        allow read, write: if isSignedIn();
+      }
+    }
+
+    // ---- playerMatchRecords / matchHistory ---------------------------------
+    // Historical stat records feed the leaderboard, so they must be
+    // trustworthy. Reads are open to signed-in users; writes should come from
+    // the server after a referee finalizes a match. Set create to `false` once
+    // that logic is server-side.
+    match /playerMatchRecords/{recId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update, delete: if false;
+    }
+
+    match /matchHistory/{docId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update, delete: if false;
+    }
+
+    // ---- playerRatings -----------------------------------------------------
+    // One rating per rater; a user cannot rate on behalf of someone else.
+    match /playerRatings/{ratingId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn()
+                    && request.resource.data.raterId == request.auth.uid;
+      allow update, delete: if isSignedIn()
+                    && resource.data.raterId == request.auth.uid;
+    }
+
+    // ---- stadiums + reviews ------------------------------------------------
+    // Stadiums are catalog data: readable by all signed-in users, writable
+    // only by the server/admin. Deploying this makes the in-app "test create
+    // stadium" flow fail (intended — see report).
+    match /stadiums/{stadiumId} {
+      allow read: if isSignedIn();
+      allow write: if false;
+
+      match /reviews/{reviewId} {
+        allow read: if isSignedIn();
+        allow create: if isSignedIn()
+                      && request.resource.data.userId == request.auth.uid;
+        allow update, delete: if isSignedIn()
+                      && resource.data.userId == request.auth.uid;
+      }
+    }
+
+    // ---- waitingList -------------------------------------------------------
+    match /waitingList/{entryId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn()
+                    && request.resource.data.oderId == request.auth.uid;
+      allow update, delete: if isSignedIn()
+                    && resource.data.oderId == request.auth.uid;
+    }
+
+    // ---- admins / adminRequests (operations desk) --------------------------
+    // Who can use the admin app. The app checks membership by reading
+    // admins/{uid}; the المشرفون page manages the roster.
+    //
+    // NOTE — bootstrap: the admin app lets the first signed-in user claim the
+    // first admin seat while no admins exist. That client write is allowed
+    // only under permissive (test-mode) rules. Once THESE rules are deployed,
+    // bootstrap/repair must happen from the Firebase console instead:
+    // Firestore → admins → add a doc whose ID is the user's auth UID.
+    function isAdmin() {
+      return isSignedIn()
+          && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    match /admins/{uid} {
+      allow read: if isSignedIn();
+      allow create, delete: if isAdmin();
+      allow update: if false;
+    }
+
+    match /adminRequests/{reqUid} {
+      // A user files/cancels their own request; admins see and resolve all.
+      allow read: if isAdmin() || isOwner(reqUid);
+      allow create: if isOwner(reqUid);
+      allow delete: if isAdmin() || isOwner(reqUid);
+      allow update: if false;
+    }
+
+    // ---- default deny ------------------------------------------------------
+    // Anything not matched above is denied. Add explicit rules for new
+    // collections rather than loosening this.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

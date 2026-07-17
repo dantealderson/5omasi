@@ -1,0 +1,36 @@
+rules_version = '2';
+
+// =============================================================================
+// Khomasi Cloud Storage Security Rules
+// =============================================================================
+// The app currently uploads profile images to a third-party host
+// (freeimage.host), not Firebase Storage, but the firebase_storage SDK is a
+// dependency and a Storage bucket exists. A bucket left in test mode is world
+// -writable, so lock it down explicitly.
+//
+// Deploy with:  firebase deploy --only storage
+// =============================================================================
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Each user may read/write only their own folder, and only reasonably
+    // sized image files (<= 5 MB).
+    match /users/{uid}/{allPaths=**} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn()
+                   && request.auth.uid == uid
+                   && request.resource.size < 5 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
+    }
+
+    // Deny everything else by default.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
